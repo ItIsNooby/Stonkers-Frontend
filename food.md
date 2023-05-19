@@ -90,7 +90,7 @@
     </script>
 </head>
 <body>
-    <input type="text" id="symbol-input" value="MSFT">
+    <input type="text" id="symbol-input">
     <button onclick="fetchAndDisplayStockData()">Fetch Data</button>
     <canvas id="stock-chart"></canvas>
 </body>
