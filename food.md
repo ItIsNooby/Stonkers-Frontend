@@ -5,7 +5,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        function refreshChart() {
+        function fetchStockData() {
+            var symbol = document.getElementById("symbol-input").value;
+
             // Make a GET request to fetch new data from the API
             $.ajax({
                 url: "https://alpha-vantage.p.rapidapi.com/query",
@@ -14,15 +16,15 @@
                     "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com"
                 },
                 data: {
-                    interval: "5min",
+                    interval: "1min",
                     function: "TIME_SERIES_INTRADAY",
-                    symbol: "MSFT",
+                    symbol: symbol,
                     datatype: "json",
                     output_size: "compact"
                 },
                 success: function(data) {
                     // Extract the time series data
-                    var timeSeriesData = data['Time Series (5min)'];
+                    var timeSeriesData = data['Time Series (1min)'];
                     var timestamps = Object.keys(timeSeriesData);
                     var openPrices = [];
                     var highPrices = [];
@@ -110,7 +112,9 @@
     </script>
 </head>
 <body>
-    <button onclick="refreshChart()">View Data</button>
+    <label for="symbol-input">Symbol:</label>
+    <input type="text" id="symbol-input" value="MSFT">
+    <button onclick="fetchStockData()">Fetch Data</button>
     <canvas id="stock-chart"></canvas>
 </body>
 </html>
