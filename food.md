@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <title>Stock Data</title>
@@ -5,6 +6,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         function fetchStockData() {
+            var symbol = document.getElementById("symbol-input").value;
+
             // Make a GET request to fetch new data from the API
             $.ajax({
                 url: "https://alpha-vantage.p.rapidapi.com/query",
@@ -15,7 +18,7 @@
                 data: {
                     interval: "1min",
                     function: "TIME_SERIES_INTRADAY",
-                    symbol: "MSFT",
+                    symbol: symbol,
                     datatype: "json",
                     output_size: "compact"
                 },
@@ -106,15 +109,12 @@
                 }
             });
         }
-
-        // Fetch stock data immediately on page load
-        fetchStockData();
-
-        // Fetch stock data every 1 minute
-        setInterval(fetchStockData, 60000);
     </script>
 </head>
 <body>
+    <label for="symbol-input">Symbol:</label>
+    <input type="text" id="symbol-input" value="MSFT">
+    <button onclick="fetchStockData()">Fetch Data</button>
     <canvas id="stock-chart"></canvas>
 </body>
 </html>
