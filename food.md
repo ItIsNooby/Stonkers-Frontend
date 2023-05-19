@@ -6,6 +6,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         var chart; // Variable to hold the chart object
+        var datasets = []; // Array to hold the chart datasets
 
         function fetchAndDisplayStockData() {
             var symbol = $("#symbol-input").val(); // Get the stock symbol from the input field
@@ -25,10 +26,8 @@
                     output_size: "compact"
                 },
                 success: function(data) {
-                    // Destroy the existing chart if it exists
-                    if (chart) {
-                        chart.destroy();
-                    }
+                    // Clear the existing datasets
+                    datasets = [];
                     
                     // Extract the time series data
                     var timeSeriesData = data['Time Series (1min)'];
@@ -48,33 +47,44 @@
                         closeData.push(row['4. close']);
                     }
                     
+                    // Create the chart datasets
+                    datasets.push({
+                        label: 'Open',
+                        data: openData,
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        fill: false
+                    });
+                    datasets.push({
+                        label: 'High',
+                        data: highData,
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        fill: false
+                    });
+                    datasets.push({
+                        label: 'Low',
+                        data: lowData,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        fill: false
+                    });
+                    datasets.push({
+                        label: 'Close',
+                        data: closeData,
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        fill: false
+                    });
+                    
+                    // Destroy the existing chart if it exists
+                    if (chart) {
+                        chart.destroy();
+                    }
+                    
                     // Create the chart using Chart.js
                     var ctx = document.getElementById("stock-chart").getContext("2d");
                     chart = new Chart(ctx, {
                         type: 'line',
                         data: {
                             labels: timestamps,
-                            datasets: [{
-                                label: 'Open',
-                                data: openData,
-                                borderColor: 'rgba(255, 99, 132, 1)',
-                                fill: false
-                            }, {
-                                label: 'High',
-                                data: highData,
-                                borderColor: 'rgba(54, 162, 235, 1)',
-                                fill: false
-                            }, {
-                                label: 'Low',
-                                data: lowData,
-                                borderColor: 'rgba(75, 192, 192, 1)',
-                                fill: false
-                            }, {
-                                label: 'Close',
-                                data: closeData,
-                                borderColor: 'rgba(153, 102, 255, 1)',
-                                fill: false
-                            }]
+                            datasets: datasets
                         },
                         options: {
                             responsive: true,
@@ -90,8 +100,11 @@
     </script>
 </head>
 <body>
-    <input type="text" id="symbol-input">
-    <button onclick="fetchAndDisplayStockData()">Fetch Data</button>
+    <div>
+        <label for="symbol-input">Stock Symbol:</label>
+        <input type="text" id="symbol-input" value="MSFT">
+        <button onclick="fetchAndDisplayStockData()">Fetch Data</button>
+    </div>
     <canvas id="stock-chart"></canvas>
 </body>
 </html>
