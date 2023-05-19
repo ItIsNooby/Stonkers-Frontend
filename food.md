@@ -113,7 +113,7 @@
 </head>
 <body>
     <label for="symbol-input">Symbol:</label>
-    <input type="text" id="symbol-input" value="MSFT">
+    <input type="text" id="symbol-input">
     <button onclick="fetchStockData()">Fetch Data</button>
     <canvas id="stock-chart"></canvas>
 </body>
