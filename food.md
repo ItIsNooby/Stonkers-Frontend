@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 <head>
     <title>Stock Data</title>
@@ -7,6 +6,7 @@
     <script>
         var chart; // Variable to hold the chart object
         var datasets = []; // Array to hold the chart datasets
+        var maxDataPoints = 100; // Maximum number of data points to display on the chart
 
         function fetchAndDisplayStockData() {
             var symbol = $("#symbol-input").val(); // Get the stock symbol from the input field
@@ -47,6 +47,15 @@
                         closeData.push(row['4. close']);
                     }
                     
+                    // Trim the data arrays to the maximum number of data points
+                    if (timestamps.length > maxDataPoints) {
+                        timestamps = timestamps.slice(timestamps.length - maxDataPoints);
+                        openData = openData.slice(openData.length - maxDataPoints);
+                        highData = highData.slice(highData.length - maxDataPoints);
+                        lowData = lowData.slice(lowData.length - maxDataPoints);
+                        closeData = closeData.slice(closeData.length - maxDataPoints);
+                    }
+                    
                     // Create the chart datasets
                     datasets.push({
                         label: 'Open',
@@ -73,13 +82,13 @@
                         fill: false
                     });
                     
-                    // Destroy the existing chart if it exists
+                    // Destroy the existing chart (if any)
                     if (chart) {
                         chart.destroy();
                     }
                     
-                    // Create the chart using Chart.js
-                    var ctx = document.getElementById("stock-chart").getContext("2d");
+                    // Create a new chart with the updated data
+                    var ctx = document.getElementById('stock-chart').getContext('2d');
                     chart = new Chart(ctx, {
                         type: 'line',
                         data: {
