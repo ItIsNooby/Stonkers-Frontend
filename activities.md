@@ -24,20 +24,17 @@
                     success: function(data) {
                         var timeSeriesData = data['Time Series (5min)'];
                         var stockName = data['Meta Data']['2. Symbol'];
-                        for (var timestamp in timeSeriesData) {
-                            if (timeSeriesData.hasOwnProperty(timestamp)) {
-                                var row = timeSeriesData[timestamp];
-                                tableRows += "<tr>";
-                                tableRows += "<td>" + stockName + "</td>";
-                                tableRows += "<td>" + timestamp + "</td>";
-                                tableRows += "<td>" + row['1. open'] + "</td>";
-                                tableRows += "<td>" + row['2. high'] + "</td>";
-                                tableRows += "<td>" + row['3. low'] + "</td>";
-                                tableRows += "<td>" + row['4. close'] + "</td>";
-                                tableRows += "<td>" + row['5. volume'] + "</td>";
-                                tableRows += "</tr>";
-                            }
-                        }
+                        var latestTimestamp = getLatestTimestamp(timeSeriesData);
+                        var row = timeSeriesData[latestTimestamp];
+                        tableRows += "<tr>";
+                        tableRows += "<td>" + stockName + "</td>";
+                        tableRows += "<td>" + latestTimestamp + "</td>";
+                        tableRows += "<td>" + row['1. open'] + "</td>";
+                        tableRows += "<td>" + row['2. high'] + "</td>";
+                        tableRows += "<td>" + row['3. low'] + "</td>";
+                        tableRows += "<td>" + row['4. close'] + "</td>";
+                        tableRows += "<td>" + row['5. volume'] + "</td>";
+                        tableRows += "</tr>";
                     },
                     error: function() {
                         console.log("Failed to fetch stock data for symbol: " + symbol);
@@ -45,7 +42,11 @@
                 });
             }$("#stock-table tbody").html(tableRows);
         }
-</script>
+        function getLatestTimestamp(timeSeriesData) {
+            var timestamps = Object.keys(timeSeriesData);
+            return timestamps[0];  // Assumes the timestamps are in descending order
+        }
+    </script>
 </head>
 <body>
     <button onclick="refreshTable()">View Data</button>
