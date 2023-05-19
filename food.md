@@ -1,11 +1,10 @@
-<!DOCTYPE html>
 <html>
 <head>
     <title>Stock Data</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        function refreshChart() {
+        function fetchStockData() {
             // Make a GET request to fetch new data from the API
             $.ajax({
                 url: "https://alpha-vantage.p.rapidapi.com/query",
@@ -14,7 +13,7 @@
                     "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com"
                 },
                 data: {
-                    interval: "5min",
+                    interval: "1min",
                     function: "TIME_SERIES_INTRADAY",
                     symbol: "MSFT",
                     datatype: "json",
@@ -22,7 +21,7 @@
                 },
                 success: function(data) {
                     // Extract the time series data
-                    var timeSeriesData = data['Time Series (5min)'];
+                    var timeSeriesData = data['Time Series (1min)'];
                     var timestamps = Object.keys(timeSeriesData);
                     var openPrices = [];
                     var highPrices = [];
@@ -107,10 +106,15 @@
                 }
             });
         }
+
+        // Fetch stock data immediately on page load
+        fetchStockData();
+
+        // Fetch stock data every 1 minute
+        setInterval(fetchStockData, 60000);
     </script>
 </head>
 <body>
-    <button onclick="refreshChart()">View Data</button>
     <canvas id="stock-chart"></canvas>
 </body>
 </html>
