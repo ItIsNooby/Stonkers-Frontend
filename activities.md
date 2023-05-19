@@ -47,7 +47,7 @@
     </script>
 </head>
 <body>
-    <button onclick="refreshTable()">Refresh Data</button>
+    <button onclick="refreshTable()">View Data</button>
     <table id="stock-table">
         <thead>
             <tr>
