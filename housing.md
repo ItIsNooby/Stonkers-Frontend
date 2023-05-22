@@ -42,7 +42,7 @@
         background-color: #bbb;
         cursor: not-allowed;
     }
-    </style>
+</style>
 </head>
 <body>
     <div class="quiz-container" id="quiz">
@@ -111,3 +111,14 @@
                 document.getElementById("result").innerHTML = `
                     <h2>You completed the quiz. Your score is ${score} out of ${quizData.length}.</h2>
                 `;
+                document.getElementById("submit").disabled = true;
+            }
+        } else {
+            alert("Please select an option before moving on.");
+        }
+    }
+
+    loadQuiz();
+</script>
+</body>
+</html>
