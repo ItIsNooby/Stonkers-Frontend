@@ -4,7 +4,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function refreshTable() {
-            var symbols = ["MSFT", "AAPL", "GOOGL"];  // Replace with your desired stock symbols
+            var symbols = ["MSFT", "AAPL", "GOOGL", "AMZN", "TSLA", "META", "AMD"];  // Replace with your desired stock symbols
             var tableRows = "";
             for (var i = 0; i < symbols.length; i++) {
                 var symbol = symbols[i];$.ajax({
