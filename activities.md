@@ -5,9 +5,9 @@
     <script>
         function refreshTable() {
             var symbols = ["MSFT", "AAPL", "GOOGL", "AMZN", "TSLA", "META", "AMD"];  // Replace with your desired stock symbols
-            var tableRows = "";
+            var tableRows = [];
             for (var i = 0; i < symbols.length; i++) {
-                var symbol = symbols[i];$.ajax({
+                var symbol = symbols[i]; $.ajax({
                     url: "https://alpha-vantage.p.rapidapi.com/query",
                     headers: {
                         "X-RapidAPI-Key": "86d3c88c86mshe0398d184fbafbdp102e5bjsn36861be80236", // Replace with your RapidAPI key
@@ -26,25 +26,55 @@
                         var stockName = data['Meta Data']['2. Symbol'];
                         var latestTimestamp = getLatestTimestamp(timeSeriesData);
                         var row = timeSeriesData[latestTimestamp];
-                        tableRows += "<tr>";
-                        tableRows += "<td>" + stockName + "</td>";
-                        tableRows += "<td>" + latestTimestamp + "</td>";
-                        tableRows += "<td>" + row['1. open'] + "</td>";
-                        tableRows += "<td>" + row['2. high'] + "</td>";
-                        tableRows += "<td>" + row['3. low'] + "</td>";
-                        tableRows += "<td>" + row['4. close'] + "</td>";
-                        tableRows += "<td>" + row['5. volume'] + "</td>";
-                        tableRows += "</tr>";
+                        var tableRow = {
+                            symbol: stockName,
+                            timestamp: latestTimestamp,
+                            open: row['1. open'],
+                            high: row['2. high'],
+                            low: row['3. low'],
+                            close: row['4. close'],
+                            volume: row['5. volume']
+                        };
+                        tableRows.push(tableRow);
                     },
                     error: function() {
                         console.log("Failed to fetch stock data for symbol: " + symbol);
                     }
                 });
-            }$("#stock-table tbody").html(tableRows);
+            }
+            renderTable(tableRows);
         }
         function getLatestTimestamp(timeSeriesData) {
             var timestamps = Object.keys(timeSeriesData);
             return timestamps[0];  // Assumes the timestamps are in descending order
+        }
+        function renderTable(tableRows) {
+            var $tableBody = $("#stock-table tbody"); $tableBody.empty();
+            for (var i = 0; i < tableRows.length; i++) {
+                var row = tableRows[i];
+                var tableRow = "<tr>" +
+                    "<td>" + row.symbol + "</td>" +
+                    "<td>" + row.timestamp + "</td>" +
+                    "<td>" + row.open + "</td>" +
+                    "<td>" + row.high + "</td>" +
+                    "<td>" + row.low + "</td>" +
+                    "<td>" + row.close + "</td>" +
+                    "<td>" + row.volume + "</td>" +
+                    "</tr>";$tableBody.append(tableRow);
+            }
+        }
+function sortTable(columnIndex) {
+            var $table = $("#stock-table");
+            var rows = $table.find("tbody tr").toArray();
+            rows.sort(function(a, b) {
+                var aValue = $(a).find("td").eq(columnIndex).text();
+                var bValue = $(b).find("td").eq(columnIndex).text();
+                if (columnIndex === 0) {
+                    return aValue.localeCompare(bValue);  // Sort alphabetically for stock column
+                } else {
+                    return parseFloat(bValue) - parseFloat(aValue);  // Sort numerically for other columns
+                }
+            });$table.find("tbody").empty().append(rows);
         }
     </script>
 </head>
@@ -53,13 +83,13 @@
     <table id="stock-table">
         <thead>
             <tr>
-                <th>Stock</th>
-                <th>Timestamp</th>
-                <th>Open</th>
-                <th>High</th>
-                <th>Low</th>
-                <th>Close</th>
-                <th>Volume</th>
+                <th onclick="sortTable(0)">Stock</th>
+                <th onclick="sortTable(1)">Timestamp</th>
+                <th onclick="sortTable(2)">Open</th>
+                <th onclick="sortTable(3)">High</th>
+                <th onclick="sortTable(4)">Low</th>
+                <th onclick="sortTable(5)">Close</th>
+                <th onclick="sortTable(6)">Volume</th>
             </tr>
         </thead>
         <tbody>
