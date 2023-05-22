@@ -1,52 +1,113 @@
-## Housing Overview
-> Sleeps 48 people. Verify your housing assignment at the reunion with Jeremiah and Melissa in case there are last minute changes.
- 
-> Preview [Homes](https://www.coramranch.com/vacation-home)
-- River House
-- Dogwood House
-- Alpine and Birch House
-- Cedar House
-- Rec Room
+# Stock Market Quiz
 
-## Cooking
-> On site there are cooking facilities in each house. The Alpine ranch kitchens will be for large group meals and has appliances and utensils. There is an outdoor barbecue!
+<html>
+<head>
+    <title>Stock Market Quiz</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
 
+    .quiz-container {
+        width: 80%;
+        margin: 0 auto;
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px 2px #ddd;
+    }
 
-## Housing Assignment
+    h1 {
+        text-align: center;
+    }
 
-| Family | Attending | Assignment | Count | Children | Arrive | Depart
-| --- | --- | --- | --- | --- | --- | --- |
-| Frank, Judith | Yes | Dogwood Primary | 2 | None | Mon | Sat |
-| | | | | |
-| Johnner, Lora | Yes | ? | 3 | Shay (14) | Mon | Sat |
-| Trent, Yuri | Yes | ? | 5 | Amelia (8), Cruz (6), Gavi (1) | Mon | Sat |
-| Corey | Yes | ? | 1 | - | Mon | Fri |
-| Tiernan | Yes | ? | 1 | - | Mon | Sat |
-| Claire | Yes | ? | 2 | - | Mon | Sat |
-| | | | | |
-|Lisa-Anne, Chris | Yes | ? | 2 | None | Mon | Sat |
-|Brianna, Forest | Yes | ? | 6 | Sayla (6), Tundra (4), Alora (2), Keelynn (1) | Mon | Sat |
-|Kira, Spencer | Yes | ? | 5 | Georgianna (6), James (5), Arabella (2), Hunter (NB) | Mon | Sat |
-|Ethan, Layne | Yes | ? | 6 | William (6), Lily (4), Adeline (2), Eleanor (1) | Mon | Sat |
-| Jarom | Yes | ? | 1 | None | Mon | Sat |
-| Braden | Yes | ? | 1 | None | Mon | Sat |
-| | | | | |
-| Mathew | Yes | ? | 1 | None | Unk | Unk |
-| | | | | |
-| Sherri, Drumond | Yes | ? | 2 | None | Mon | Sat |
-| Taylor | Yes | ? | 1 | None | Unk | Unk |
-| Jake | Yes | ? | 1 | None | Unk | Unk |
-| | | | | |
-| Angela, Tye | Yes | ? | 2 | None | Mon | Sat |
-| Bryce | Yes | ? | 1 | None | Unk | Unk |
-| Aspen, Brandon | Yes | ? | 2 | None | Unk | Unk |
-| Calem | Yes | ? | 1 | None | Unk | Unk |
-| | | | | |
-| Jared, Janice | Yes | ? | 4 | Kelle (15), Naya (13) | Mon | Sat |
-| | | | | |
-| John, Melanie | Yes | ? | 4 | Connor (17), Sophia (14) | Mon | Sat |
-| Isaiah | No | ? | 1 | None | Unk | Unk |
-| | | | | |
-| Jeremiah, Melissa | Yes | ? | 3 | Liam (11) | Mon | Sat |
-| Annalyce | Yes | ? | 1 | None | Unk | Unk |
-| Peyton | Yes | ? | 1 | None | Unk | Unk |
+    button {
+        display: block;
+        margin: 20px auto;
+        background-color: #4285f4;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+    }
+
+    button:hover {
+        background-color: #3073f3;
+    }
+
+    button:disabled {
+        background-color: #bbb;
+        cursor: not-allowed;
+    }
+    </style>
+</head>
+<body>
+    <div class="quiz-container" id="quiz">
+        <button id="submit" onclick="submitQuiz()">Submit Quiz</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+    const quizData = [
+        {
+            question: "What does IPO stand for?",
+            a: "Initial Public Offering",
+            b: "Instant Price Option",
+            c: "Investment Potential Output",
+            d: "Intelligent Profit Operation",
+            correct: "a"
+        },
+        {
+            question: "What does NASDAQ stand for?",
+            a: "National Association of Securities Dealers Automated Quotations",
+            b: "National Assembly of Stock Dealers And Quantities",
+            c: "National Association of Security Dealers And Quality",
+            d: "None of the above",
+            correct: "a"
+        },
+        // Add more questions as needed
+    ];
+
+    let currentQuiz = 0;
+    let score = 0;
+
+    const loadQuiz = () => {
+        const currentQuizData = quizData[currentQuiz];
+
+        const quizElement = document.getElementById("quiz");
+        quizElement.innerHTML = `
+            <h2>${currentQuizData.question}</h2>
+            ${["a", "b", "c", "d"].map(letter => `
+                <label>
+                    <input type="radio" name="answer" value="${letter}">
+                    ${letter}: ${currentQuizData[letter]}
+                </label>
+            `).join('')}
+        `;
+    }
+
+    const submitQuiz = () => {
+        const answerElements = document.getElementsByName("answer");
+        let answer = undefined;
+
+        answerElements.forEach((element) => {
+            if (element.checked) {
+                answer = element.value;
+            }
+        });
+
+        if (answer) {
+            if (answer === quizData[currentQuiz].correct) {
+                score++;
+            }
+            currentQuiz++;
+
+            if (currentQuiz < quizData.length) {
+                loadQuiz();
+            } else {
+                document.getElementById("result").innerHTML = `
+                    <h2>You completed the quiz. Your score is ${score} out of ${quizData.length}.</h2>
+                `;

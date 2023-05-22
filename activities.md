@@ -17,7 +17,12 @@
             var symbols = ["MSFT", "AAPL", "GOOGL", "AMZN", "TSLA", "META", "AMD"];  // Replace with your desired stock symbols
             var tableRows = [];
             for (var i = 0; i < symbols.length; i++) {
+<<<<<<< HEAD
                 var symbol = symbols[i];$.ajax({
+=======
+                var symbol = symbols[i];
+                $.ajax({
+>>>>>>> bf1eb3528b5871758e7ba1e1759c85cca879a16a
                     url: "https://alpha-vantage.p.rapidapi.com/query",
                     headers: {
                         "X-RapidAPI-Key": "86d3c88c86mshe0398d184fbafbdp102e5bjsn36861be80236", // Replace with your RapidAPI key
@@ -55,12 +60,19 @@
             }
             renderTable(tableRows);
         }
+        
         function getLatestTimestamp(timeSeriesData) {
             var timestamps = Object.keys(timeSeriesData);
             return timestamps[0];  // Assumes the timestamps are in descending order
         }
+        
         function renderTable(tableRows) {
+<<<<<<< HEAD
             var $tableBody = $("#stock-table tbody");$tableBody.empty();
+=======
+            var $tableBody = $("#stock-table tbody");
+            $tableBody.empty();
+>>>>>>> bf1eb3528b5871758e7ba1e1759c85cca879a16a
             for (var i = 0; i < tableRows.length; i++) {
                 var row = tableRows[i];
                 var favoriteIcon = row.favorite ? '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9733;</span>' : '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9734;</span>';
@@ -72,9 +84,14 @@
                     "<td>" + row.low + "</td>" +
                     "<td>" + row.close + "</td>" +
                     "<td>" + row.volume + "</td>" +
-                    "</tr>";$tableBody.append(tableRow);
+                    "</tr>";
+                $tableBody.append(tableRow);
             }
         }
+<<<<<<< HEAD
+=======
+        
+>>>>>>> bf1eb3528b5871758e7ba1e1759c85cca879a16a
         function sortTable(columnIndex) {
             var $table = $("#stock-table");
             var rows = $table.find("tbody tr").toArray();
@@ -86,8 +103,10 @@
                 } else {
                     return parseFloat(bValue) - parseFloat(aValue);  // Sort numerically for other columns
                 }
-            });$table.find("tbody").empty().append(rows);
+            });
+            $table.find("tbody").empty().append(rows);
         }
+<<<<<<< HEAD
         function toggleFavorite(rowIndex) {
             var $table = $("#stock-table");
             var $row = $table.find("tbody tr").eq(rowIndex);
@@ -101,6 +120,12 @@
             }
         }
         </script>
+=======
+        
+        // Refresh the table every minute
+        setInterval(refreshTable, 60000);
+    </script>
+>>>>>>> bf1eb3528b5871758e7ba1e1759c85cca879a16a
 </head>
 <body>
     <button onclick="refreshTable()">View Data</button>
