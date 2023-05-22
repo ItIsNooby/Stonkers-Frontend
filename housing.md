@@ -46,11 +46,11 @@
 </head>
 <body>
     <div class="quiz-container" id="quiz">
-        <button id="submit" onclick="submitQuiz()">Submit Quiz</button>
+        <button id="next" onclick="nextQuestion()" disabled>Next</button>
         <div id="result"></div>
     </div>
 
-    <script>
+<script>
     const quizData = [
         {
             question: "What does IPO stand for?",
@@ -68,7 +68,14 @@
             d: "None of the above",
             correct: "a"
         },
-        // Add more questions as needed
+        {   
+            question: "What does it mean when you buy a stock?",
+            a: "Have a share in a company",
+            b: "Employee of a company",
+            c: "Creator of a company ",
+            d: "None of the above",
+            correct: "a"
+        }
     ];
 
     let currentQuiz = 0;
@@ -82,14 +89,19 @@
             <h2>${currentQuizData.question}</h2>
             ${["a", "b", "c", "d"].map(letter => `
                 <label>
-                    <input type="radio" name="answer" value="${letter}">
+                    <input type="radio" name="answer" value="${letter}" onchange="enableNextButton()">
                     ${letter}: ${currentQuizData[letter]}
                 </label>
             `).join('')}
         `;
     }
 
-    const submitQuiz = () => {
+    const enableNextButton = () => {
+        const nextButton = document.getElementById("next");
+        nextButton.disabled = false;
+    }
+
+    const nextQuestion = () => {
         const answerElements = document.getElementsByName("answer");
         let answer = undefined;
 
@@ -107,11 +119,12 @@
 
             if (currentQuiz < quizData.length) {
                 loadQuiz();
+                document.getElementById("next").disabled = true;
             } else {
                 document.getElementById("result").innerHTML = `
                     <h2>You completed the quiz. Your score is ${score} out of ${quizData.length}.</h2>
                 `;
-                document.getElementById("submit").disabled = true;
+                document.getElementById("next").disabled = true;
             }
         } else {
             alert("Please select an option before moving on.");
@@ -119,6 +132,6 @@
     }
 
     loadQuiz();
-</script>
+    </script>
 </body>
 </html>
