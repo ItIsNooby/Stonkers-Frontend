@@ -26,6 +26,9 @@
                     output_size: "compact"
                 },
                 success: function(data) {
+                    // Clear the existing datasets
+                    datasets = [];
+                    
                     // Extract the time series data
                     var timeSeriesData = data['Time Series (1min)'];
                     var timestamps = Object.keys(timeSeriesData);
@@ -53,57 +56,56 @@
                         closeData = closeData.slice(closeData.length - maxDataPoints);
                     }
                     
-                    // Update the chart datasets
-                    chart.data.labels = timestamps;
-                    chart.data.datasets[0].data = openData;
-                    chart.data.datasets[1].data = highData;
-                    chart.data.datasets[2].data = lowData;
-                    chart.data.datasets[3].data = closeData;
+                    // Create the chart datasets
+                    datasets.push({
+                        label: 'Open',
+                        data: openData,
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        fill: false
+                    });
+                    datasets.push({
+                        label: 'High',
+                        data: highData,
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        fill: false
+                    });
+                    datasets.push({
+                        label: 'Low',
+                        data: lowData,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        fill: false
+                    });
+                    datasets.push({
+                        label: 'Close',
+                        data: closeData,
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        fill: false
+                    });
                     
-                    // Update the chart
-                    chart.update();
+                    // Destroy the existing chart (if any)
+                    if (chart) {
+                        chart.destroy();
+                    }
+                    
+                    // Create a new chart with the updated data
+                    var ctx = document.getElementById('stock-chart').getContext('2d');
+                    chart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: timestamps,
+                            datasets: datasets
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
                 },
                 error: function() {
                     console.log("Failed to fetch stock data.");
                 }
             });
         }
-        
-        // Initialize the chart on page load
-        $(document).ready(function() {
-            var ctx = document.getElementById('stock-chart').getContext('2d');
-            chart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: [],
-                    datasets: [{
-                        label: 'Open',
-                        data: [],
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        fill: false
-                    }, {
-                        label: 'High',
-                        data: [],
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        fill: false
-                    }, {
-                        label: 'Low',
-                        data: [],
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        fill: false
-                    }, {
-                        label: 'Close',
-                        data: [],
-                        borderColor: 'rgba(153, 102, 255, 1)',
-                        fill: false
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false
-                }
-            });
-        });
     </script>
 </head>
 <body>
