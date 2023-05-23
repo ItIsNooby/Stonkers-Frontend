@@ -12,12 +12,12 @@
         }
     </style>
     <script>
-        var favorites = []; // Array to store the favorite stocks
+        var favorites = []; // Array to store the favorite stocks       
         function refreshTable() {
             var symbols = ["MSFT", "AAPL", "GOOGL", "AMZN", "TSLA", "META", "AMD"];  // Replace with your desired stock symbols
             var tableRows = [];
             for (var i = 0; i < symbols.length; i++) {
-                var symbol = symbols[i];$.ajax({
+                var symbol = symbols[i]; $.ajax({
                     url: "https://alpha-vantage.p.rapidapi.com/query",
                     headers: {
                         "X-RapidAPI-Key": "86d3c88c86mshe0398d184fbafbdp102e5bjsn36861be80236", // Replace with your RapidAPI key
@@ -61,7 +61,7 @@
             return timestamps[0];  // Assumes the timestamps are in descending order
         }
         function renderTable(tableRows) {
-            var $tableBody = $("#stock-table tbody");$tableBody.empty();
+            var $tableBody = $("#stock-table tbody");            $tableBody.empty();
             for (var i = 0; i < tableRows.length; i++) {
                 var row = tableRows[i];
                 var favoriteIcon = row.favorite ? '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9733;</span>' : '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9734;</span>';
@@ -73,7 +73,7 @@
                     "<td>" + row.low + "</td>" +
                     "<td>" + row.close + "</td>" +
                     "<td>" + row.volume + "</td>" +
-                    "</tr>";    $tableBody.append(tableRow);
+                    "</tr>";$tableBody.append(tableRow);
             }
         }
         function sortTable(tableRows, columnIndex) {
@@ -81,22 +81,22 @@
                 var minIndex = i;
                 for (var j = i + 1; j < tableRows.length; j++) {
                     var aValue = tableRows[j].symbol;
-                    var bValue = tableRows[minIndex].symbol;
+                    var bValue = tableRows[minIndex].symbol;                    
                     if (aValue.localeCompare(bValue) < 0) {
                         minIndex = j;
                     }
-                }
+                }                
                 if (minIndex !== i) {
                     var temp = tableRows[i];
                     tableRows[i] = tableRows[minIndex];
                     tableRows[minIndex] = temp;
                 }
             }
-        }
+        }       
         function toggleFavorite(rowIndex) {
             var $table = $("#stock-table");
             var $row = $table.find("tbody tr").eq(rowIndex);
-            var stockName = $row.find("td").eq(0).text();           
+            var stockName = $row.find("td").eq(0).text();          
             if (favorites.includes(stockName)) {
                 favorites = favorites.filter(function(value) {
                     return value !== stockName;
