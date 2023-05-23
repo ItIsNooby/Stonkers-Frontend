@@ -53,6 +53,7 @@
                     }
                 });
             }
+            sortTable(tableRows, 0); // Sort the table rows initially by the first column (stock symbol)
             renderTable(tableRows);
         }
         function getLatestTimestamp(timeSeriesData) {
@@ -72,26 +73,30 @@
                     "<td>" + row.low + "</td>" +
                     "<td>" + row.close + "</td>" +
                     "<td>" + row.volume + "</td>" +
-                    "</tr>";$tableBody.append(tableRow);
+                    "</tr>";    $tableBody.append(tableRow);
             }
         }
-function sortTable(columnIndex) {
-            var $table = $("#stock-table");
-            var rows = $table.find("tbody tr").toArray();
-            rows.sort(function(a, b) {
-                var aValue = $(a).find("td").eq(columnIndex).text();
-                var bValue = $(b).find("td").eq(columnIndex).text();
-                if (columnIndex === 0) {
-                    return aValue.localeCompare(bValue);  // Sort alphabetically for stock column
-                } else {
-                    return parseFloat(bValue) - parseFloat(aValue);  // Sort numerically for other columns
+        function sortTable(tableRows, columnIndex) {
+            for (var i = 0; i < tableRows.length - 1; i++) {
+                var minIndex = i;
+                for (var j = i + 1; j < tableRows.length; j++) {
+                    var aValue = tableRows[j].symbol;
+                    var bValue = tableRows[minIndex].symbol;
+                    if (aValue.localeCompare(bValue) < 0) {
+                        minIndex = j;
+                    }
                 }
-            });$table.find("tbody").empty().append(rows);
+                if (minIndex !== i) {
+                    var temp = tableRows[i];
+                    tableRows[i] = tableRows[minIndex];
+                    tableRows[minIndex] = temp;
+                }
+            }
         }
         function toggleFavorite(rowIndex) {
             var $table = $("#stock-table");
             var $row = $table.find("tbody tr").eq(rowIndex);
-            var stockName = $row.find("td").eq(0).text();
+            var stockName = $row.find("td").eq(0).text();           
             if (favorites.includes(stockName)) {
                 favorites = favorites.filter(function(value) {
                     return value !== stockName;
@@ -107,25 +112,25 @@ function sortTable(columnIndex) {
     <table id="stock-table">
         <thead>
             <tr>
-                <th class="sortable" onclick="sortTable(0)">
+                <th class="sortable" onclick="sortTable(tableRows, 0)">
                     Stock
                 </th>
-                <th class="sortable" onclick="sortTable(1)">
+                <th class="sortable" onclick="sortTable(tableRows, 1)">
                     Timestamp
                 </th>
-                <th class="sortable" onclick="sortTable(2)">
+                <th class="sortable" onclick="sortTable(tableRows, 2)">
                     Open
                 </th>
-                <th class="sortable" onclick="sortTable(3)">
+                <th class="sortable" onclick="sortTable(tableRows, 3)">
                     High
                 </th>
-                <th class="sortable" onclick="sortTable(4)">
+                <th class="sortable" onclick="sortTable(tableRows, 4)">
                     Low
                 </th>
-                <th class="sortable" onclick="sortTable(5)">
+                <th class="sortable" onclick="sortTable(tableRows, 5)">
                     Close
                 </th>
-                <th class="sortable" onclick="sortTable(6)">
+                <th class="sortable" onclick="sortTable(tableRows, 6)">
                     Volume
                 </th>
             </tr>
