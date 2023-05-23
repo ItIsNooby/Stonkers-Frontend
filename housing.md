@@ -1,137 +1,129 @@
-# Stock Market Quiz
-
 <html>
 <head>
-    <title>Stock Market Quiz</title>
-    <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-    }
-
-    .quiz-container {
-        width: 80%;
-        margin: 0 auto;
-        background-color: white;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0px 0px 10px 2px #ddd;
-    }
-
-    h1 {
-        text-align: center;
-    }
-
-    button {
-        display: block;
-        margin: 20px auto;
-        background-color: #4285f4;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-    }
-
-    button:hover {
-        background-color: #3073f3;
-    }
-
-    button:disabled {
-        background-color: #bbb;
-        cursor: not-allowed;
-    }
+<style>
+body {
+    font-family: Arial, sans-serif;
+}
+#quiz {
+    margin-bottom: 30px;
+}
+#quiz h1 {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+#quiz h2 {
+    font-size: 1.2em;
+}
+.question {
+    margin: 20px 0;
+}
+.answers {
+    margin-bottom: 20px;
+}
+#submit, #restart {
+    font-size: 1.2em;
+    padding: 10px 20px;
+    margin: 5px;
+}
+#results {
+    font-weight: bold;
+    background: #030000;
+    padding: 20px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
 </style>
 </head>
 <body>
-    <div class="quiz-container" id="quiz">
-        <button id="next" onclick="nextQuestion()" disabled>Next</button>
-        <div id="result"></div>
+<div id="quiz">
+    <h1>Stock Game Quiz</h1>
+    <h2 id="question"></h2>
+    <div class="answers">
+        <input type="radio" name="answer" id="a" value="a">
+        <label for="a" id="a_text"></label><br>
+        <input type="radio" name="answer" id="b" value="b">
+        <label for="b" id="b_text"></label><br>
+        <input type="radio" name="answer" id="c" value="c">
+        <label for="c" id="c_text"></label><br>
     </div>
-
+    <button id="submit">Next</button>
+</div>
+<div id="results"></div>
+<button id="restart" style="display:none;">Restart</button>
 <script>
-    const quizData = [
-        {
-            question: "What does IPO stand for?",
-            a: "Initial Public Offering",
-            b: "Instant Price Option",
-            c: "Investment Potential Output",
-            d: "Intelligent Profit Operation",
-            correct: "a"
+var currentQuestion = 0;
+var score = 0;
+var questions = [
+    {
+        question: '1. What does IPO stand for?',
+        answers: {
+            a: 'Initial Public Offering',
+            b: 'Internal Price Options',
+            c: 'Intelligent Personal Object'
         },
-        {
-            question: "What does NASDAQ stand for?",
-            a: "National Association of Securities Dealers Automated Quotations",
-            b: "National Assembly of Stock Dealers And Quantities",
-            c: "National Association of Security Dealers And Quality",
-            d: "None of the above",
-            correct: "a"
+        correctAnswer: 'a'
+    },
+    {
+        question: '2. What is a bull market?',
+        answers: {
+            a: 'A market in decline',
+            b: 'A market on the rise',
+            c: 'A market with a lot of trading activity'
         },
-        {   
-            question: "What does it mean when you buy a stock?",
-            a: "Have a share in a company",
-            b: "Employee of a company",
-            c: "Creator of a company ",
-            d: "None of the above",
-            correct: "a"
-        }
-    ];
-
-    let currentQuiz = 0;
-    let score = 0;
-
-    const loadQuiz = () => {
-        const currentQuizData = quizData[currentQuiz];
-
-        const quizElement = document.getElementById("quiz");
-        quizElement.innerHTML = `
-            <h2>${currentQuizData.question}</h2>
-            ${["a", "b", "c", "d"].map(letter => `
-                <label>
-                    <input type="radio" name="answer" value="${letter}" onchange="enableNextButton()">
-                    ${letter}: ${currentQuizData[letter]}
-                </label>
-            `).join('')}
-        `;
+        correctAnswer: 'b'
+    },
+    {
+        question: '3. What is a bear market?',
+        answers: {
+            a: 'A market on the rise',
+            b: 'A market in decline',
+            c: 'A market with a lot of trading activity'
+        },
+        correctAnswer: 'b'
     }
+];
 
-    const enableNextButton = () => {
-        const nextButton = document.getElementById("next");
-        nextButton.disabled = false;
+function showQuestion() {
+    var q = questions[currentQuestion];
+    document.getElementById('question').textContent = q.question;
+    document.getElementById('a_text').textContent = q.answers.a;
+    document.getElementById('b_text').textContent = q.answers.b;
+    document.getElementById('c_text').textContent = q.answers.c;
+}
+
+function checkAnswer() {
+    var selectedAnswer = document.querySelector('input[name="answer"]:checked').value;
+    if (selectedAnswer === questions[currentQuestion].correctAnswer) {
+        score++;
     }
-
-    const nextQuestion = () => {
-        const answerElements = document.getElementsByName("answer");
-        let answer = undefined;
-
-        answerElements.forEach((element) => {
-            if (element.checked) {
-                answer = element.value;
-            }
-        });
-
-        if (answer) {
-            if (answer === quizData[currentQuiz].correct) {
-                score++;
-            }
-            currentQuiz++;
-
-            if (currentQuiz < quizData.length) {
-                loadQuiz();
-                document.getElementById("next").disabled = true;
-            } else {
-                document.getElementById("result").innerHTML = `
-                    <h2>You completed the quiz. Your score is ${score} out of ${quizData.length}.</h2>
-                `;
-                document.getElementById("next").disabled = true;
-            }
-        } else {
-            alert("Please select an option before moving on.");
-        }
+    currentQuestion++;
+    if (currentQuestion >= questions.length) {
+        showResults();
+    } else {
+        showQuestion();
     }
+}
 
-    loadQuiz();
-    </script>
+function showResults() {
+    document.getElementById('quiz').style.display = 'none';
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('results').textContent = 'You scored ' + score + ' out of ' + questions.length + '.';
+    document.getElementById('restart').style.display = 'block';
+}
+
+function restartQuiz() {
+    score = 0;
+    currentQuestion = 0;
+    document.getElementById('quiz').style.display = 'block';
+    document.getElementById('results').style.display = 'none';
+    document.getElementById('restart').style.display = 'none';
+    showQuestion();
+}
+
+document.getElementById('submit').addEventListener('click', checkAnswer);
+document.getElementById('restart').addEventListener('click', restartQuiz);
+showQuestion();
+</script>
 </body>
 </html>
