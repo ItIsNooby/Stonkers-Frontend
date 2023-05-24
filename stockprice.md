@@ -18,7 +18,7 @@
             var tableRows = [];
             for (var i = 0; i < symbols.length; i++) {
                 var symbol = symbols[i];$.ajax({
-                    url: "https://nasdaq-stock-pricing.p.rapidapi.com/Stock/GetPrice/AAPL",
+                    url: "https://nasdaq-stock-pricing.p.rapidapi.com/api/PriceV2",
                     headers: {
                         "X-RapidAPI-Key": "b731fee7a5mshf2b6608334c0b07p13bf5fjsn09fcf5df26f4", // Replace with your RapidAPI key
                         "X-RapidAPI-Host": "nasdaq-stock-pricing.p.rapidapi.com"
