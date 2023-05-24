@@ -163,6 +163,33 @@ var questions = [
         },
         correctAnswer: 'a'
     }
+    {
+        question: 'Here is a graph of a stock. What does the pattern represent?<br><img src="https://a.c-dn.net/c/content/dam/publicsites/igcom/uk/images/ContentImage/Cup%20and%20handle.png" alt="Stock Graph">',
+        answers: {
+            a: 'Bullish trend',
+            b: 'Bearish trend',
+            c: 'Consolidation phase'
+        },
+        correctAnswer: 'a'
+    },
+    {
+        question: 'What type of candlestick pattern is this?<br><img src="https://www.adigitalblogger.com/wp-content/uploads/shooting-star.png" alt="Candlestick Pattern">',
+        answers: {
+            a: 'Hammer',
+            b: 'Shooting Star',
+            c: 'Doji'
+        },
+        correctAnswer: 'b'
+    },
+    {
+        question: 'What does this type of volume pattern suggest?<br><img src="https://school.stockcharts.com/lib/exe/fetch.php?media=chart_analysis:candlestick_bearish_reversal_patterns:bearrev1-nke-bearengresist.png" alt="Volume Pattern">',
+        answers: {
+            a: 'Strong buying interest',
+            b: 'Strong selling pressure',
+            c: 'Low trading activity'
+        },
+        correctAnswer: 'b'
+    }
 ];
 function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
