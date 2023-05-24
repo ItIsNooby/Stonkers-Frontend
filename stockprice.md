@@ -16,18 +16,20 @@
         function refreshTable() {
             var symbols = ["MSFT", "AAPL", "GOOGL", "AMZN", "TSLA", "META", "AMD"]; // Replace with your desired stock symbols
             var tableRows = [];
-            symbols.forEach(function(symbol) {$.ajax({
+            for (var i = 0; i < symbols.length; i++) {
+                var symbol = symbols[i];$.ajax({
                     url: "https://latest-stock-price.p.rapidapi.com/price?Indices=%3CREQUIRED%3E",
                     headers: {
                         "X-RapidAPI-Key": "b731fee7a5mshf2b6608334c0b07p13bf5fjsn09fcf5df26f4", // Replace with your RapidAPI key
                         "X-RapidAPI-Host": "latest-stock-price.p.rapidapi.com"
                     },
                     data: {
-                        Indices: symbol
+                        symbol: symbol
                     },
+                    async: false, // Ensures synchronous execution of the requests
                     success: function(data) {
-                        var stockName = Object.keys(data)[0];
-                        var latestPrice = data[stockName] && data[stockName].price;
+                        var stockName = data['symbol'];
+                        var latestPrice = data['price'];  
                         var tableRow = {
                             symbol: stockName,
                             price: latestPrice,
@@ -39,20 +41,21 @@
                         console.log("Failed to fetch stock data for symbol: " + symbol);
                     }
                 });
-            });
-renderTable(tableRows);
+            }
+            renderTable(tableRows);
         }
-function renderTable(tableRows) {
-            var $tableBody = $("#stock-table tbody");$tableBody.empty();
-tableRows.forEach(function(row) {
-                var favoriteIcon = row.favorite ? '<span class="favorite" onclick="toggleFavorite(' + row.symbol + ')">&#9733;</span>' : '<span class="favorite" onclick="toggleFavorite(' + row.symbol + ')">&#9734;</span>';
+        function renderTable(tableRows) {
+            var $tableBody = $("#stock-table tbody"); $tableBody.empty();
+            for (var i = 0; i < tableRows.length; i++) {
+                var row = tableRows[i];
+                var favoriteIcon = row.favorite ? '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9733;</span>' : '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9734;</span>';
                 var tableRow = "<tr>" +
                     "<td>" + row.symbol + favoriteIcon + "</td>" +
                     "<td>" + row.price + "</td>" +
                     "</tr>";$tableBody.append(tableRow);
-            });
+            }
         }
-function sortTable(columnIndex) {
+        function sortTable(columnIndex) {
             var $table = $("#stock-table");
             var rows = $table.find("tbody tr").toArray();
             rows.sort(function(a, b) {
@@ -65,14 +68,17 @@ function sortTable(columnIndex) {
                 }
             });$table.find("tbody").empty().append(rows);
         }
-function toggleFavorite(stockName) {
-            var index = favorites.indexOf(stockName);
-            if (index !== -1) {
-                favorites.splice(index, 1);
+        function toggleFavorite(rowIndex) {
+            var $table = $("#stock-table");
+            var $row = $table.find("tbody tr").eq(rowIndex);
+            var stockName = $row.find("td").eq(0).text();
+            if (favorites.includes(stockName)) {
+                favorites = favorites.filter(function(value) {
+                    return value !== stockName;
+                });$row.find(".favorite").html("&#9734;");
             } else {
-                favorites.push(stockName);
+                favorites.push(stockName);$row.find(".favorite").html("&#9733;");
             }
-            refreshTable();
         }
     </script>
 </head>
