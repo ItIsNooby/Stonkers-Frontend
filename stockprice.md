@@ -27,7 +27,7 @@
                     },
                     success: function(data) {
                         var stockName = Object.keys(data)[0];
-                        var latestPrice = data[stockName].price;
+                        var latestPrice = data[stockName] && data[stockName].price;
                         var tableRow = {
                             symbol: stockName,
                             price: latestPrice,
