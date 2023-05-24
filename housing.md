@@ -108,6 +108,60 @@ var questions = [
             c: 'The profit margin of a company'
         },
         correctAnswer: 'a'
+    },
+    {
+        question: 'What does NASDAQ stand for?',
+        answers: {
+            a: 'National Association of Securities Dealers Automated Quotations',
+            b: 'New York Stock Dealers Association Quotations',
+            c: 'National Association of Stock Dealers Automatic Questions'
+        },
+        correctAnswer: 'a'
+    },
+    {
+        question: 'What is a Blue Chip stock?',
+        answers: {
+            a: 'A stock from a large, nationally recognized and well-established company',
+            b: 'A stock from a small, innovative and new company',
+            c: 'A stock that gives high dividends'
+        },
+        correctAnswer: 'a'
+    },
+    {
+        question: 'What is a short selling?',
+        answers: {
+            a: 'Selling a stock you own and hope to buy back at a lower price',
+            b: 'Selling a stock you do not own and hope to buy back at a lower price',
+            c: 'Selling a stock just after buying it'
+        },
+        correctAnswer: 'b'
+    },
+    {
+        question: 'What is a mutual fund?',
+        answers: {
+            a: 'A fund that ensures mutual benefits for all stockholders',
+            b: 'A collection of stocks, bonds, or other securities owned by a group of investors and managed by a professional investment company',
+            c: 'A fund that invests in real estate only'
+        },
+        correctAnswer: 'b'
+    },
+    {
+        question: 'What is a hedge fund?',
+        answers: {
+            a: 'A fund that invests in agricultural products',
+            b: 'A fund that only invests in safe and risk-free assets',
+            c: 'A private investment structure that employs complex strategies to generate high returns, often more risky'
+        },
+        correctAnswer: 'c'
+    },
+    {
+        question: 'What does ETF stand for?',
+        answers: {
+            a: 'Exchange-Traded Fund',
+            b: 'Equity Transfer Facility',
+            c: 'Exchange Transaction Fee'
+        },
+        correctAnswer: 'a'
     }
 ];
 function shuffleArray(array) {
