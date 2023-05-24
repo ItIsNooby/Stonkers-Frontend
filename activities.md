@@ -13,10 +13,10 @@
     </style>
     <script>
         var favorites = []; // Array to store the favorite stocks
-        var tableRows = []; // Declare tableRows outside the refreshTable function        
+        var tableRows = []; // Declare tableRows outside the refreshTable function       
         function refreshTable() {
             var symbols = ["MSFT", "AAPL", "GOOGL", "AMZN", "TSLA", "META", "AMD"];  // Replace with your desired stock symbols
-            tableRows = []; // Clear tableRows before fetching new data            
+            tableRows = []; // Clear tableRows before fetching new data
             for (var i = 0; i < symbols.length; i++) {
                 var symbol = symbols[i];$.ajax({
                     url: "https://alpha-vantage.p.rapidapi.com/query",
@@ -78,22 +78,12 @@
             }
         }
         function sortTable(tableRows, columnIndex) {
-            for (var i = 0; i < tableRows.length - 1; i++) {
-                var minIndex = i;
-                for (var j = i + 1; j < tableRows.length; j++) {
-                    var aValue = tableRows[j].symbol;
-                    var bValue = tableRows[minIndex].symbol;  
-                    if (aValue.localeCompare(bValue) < 0) {
-                        minIndex = j;
-                    }
-                }
-                if (minIndex !== i) {
-                    var temp = tableRows[i];
-                    tableRows[i] = tableRows[minIndex];
-                    tableRows[minIndex] = temp;
-                }
-            }
-        }
+            tableRows.sort(function(a, b) {
+                var aValue = a[Object.keys(a)[columnIndex]];
+                var bValue = b[Object.keys(b)[columnIndex]];
+                return aValue.localeCompare(bValue);
+            });
+        }       
         function toggleFavorite(rowIndex) {
             var $table = $("#stock-table");
             var $row = $table.find("tbody tr").eq(rowIndex);
