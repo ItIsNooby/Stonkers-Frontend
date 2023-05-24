@@ -14,33 +14,27 @@
     <script>
         var favorites = []; // Array to store the favorite stocks
         function refreshTable() {
-            var symbols = ["AAPL", "MSFT", "GOOGL", "AMZN", "TSLA"]; // Replace with your desired stock symbols
+            var symbols = ["MSFT", "AAPL", "GOOGL", "AMZN", "TSLA", "META", "AMD"]; // Replace with your desired stock symbols
             var tableRows = [];
             for (var i = 0; i < symbols.length; i++) {
                 var symbol = symbols[i];$.ajax({
-                    url: "https://nasdaq-stock-pricing.p.rapidapi.com/api/PriceV2",
+                    url: "https://latest-stock-price.p.rapidapi.com/price",
                     headers: {
                         "X-RapidAPI-Key": "b731fee7a5mshf2b6608334c0b07p13bf5fjsn09fcf5df26f4", // Replace with your RapidAPI key
-                        "X-RapidAPI-Host": "nasdaq-stock-pricing.p.rapidapi.com"
+                        "X-RapidAPI-Host": "latest-stock-price.p.rapidapi.com"
                     },
                     data: {
                         symbol: symbol
                     },
                     async: false, // Ensures synchronous execution of the requests
                     success: function(data) {
-                        var stockName = data[0]['symbol'];
-                        var stockData = data[0]['data'];
-                        var latestData = stockData[stockData.length - 1];
+                        var stockName = data['symbol'];
+                        var latestPrice = data['price'];  
                         var tableRow = {
                             symbol: stockName,
-                            timestamp: latestData[0],
-                            open: latestData[1],
-                            high: latestData[2],
-                            low: latestData[3],
-                            close: latestData[4],
-                            volume: latestData[5],
+                            price: latestPrice,
                             favorite: favorites.includes(stockName) // Check if the stock is already a favorite
-                        }; 
+                        };
                         tableRows.push(tableRow);
                     },
                     error: function() {
@@ -51,18 +45,13 @@
             renderTable(tableRows);
         }
         function renderTable(tableRows) {
-            var $tableBody = $("#stock-table tbody");$tableBody.empty();
+            var $tableBody = $("#stock-table tbody"); $tableBody.empty();
             for (var i = 0; i < tableRows.length; i++) {
                 var row = tableRows[i];
                 var favoriteIcon = row.favorite ? '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9733;</span>' : '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9734;</span>';
                 var tableRow = "<tr>" +
                     "<td>" + row.symbol + favoriteIcon + "</td>" +
-                    "<td>" + row.timestamp + "</td>" +
-                    "<td>" + row.open + "</td>" +
-                    "<td>" + row.high + "</td>" +
-                    "<td>" + row.low + "</td>" +
-                    "<td>" + row.close + "</td>" +
-                    "<td>" + row.volume + "</td>" +
+                    "<td>" + row.price + "</td>" +
                     "</tr>";$tableBody.append(tableRow);
             }
         }
@@ -102,22 +91,7 @@
                     Stock
                 </th>
                 <th class="sortable" onclick="sortTable(1)">
-                    Timestamp
-                </th>
-                <th class="sortable" onclick="sortTable(2)">
-                    Open
-                </th>
-                <th class="sortable" onclick="sortTable(3)">
-                    High
-                </th>
-                <th class="sortable" onclick="sortTable(4)">
-                    Low
-                </th>
-                <th class="sortable" onclick="sortTable(5)">
-                    Close
-                </th>
-                <th class="sortable" onclick="sortTable(6)">
-                    Volume
+                    Price
                 </th>
             </tr>
         </thead>
