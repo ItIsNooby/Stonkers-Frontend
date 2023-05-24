@@ -164,7 +164,7 @@ var questions = [
         correctAnswer: 'a'
     },
     {
-        question: 'Here is a graph of a stock. What does the pattern represent?<br><img src="https://a.c-dn.net/c/content/dam/publicsites/igcom/uk/images/ContentImage/Cup%20and%20handle.png" alt="Stock Graph">',
+        question: 'Here is a graph of a stock. What does the pattern represent?<br><img src="![]({{site.baseurl}}/images/Bullish.png)" alt="Stock Graph">',
         answers: {
             a: 'Bullish trend',
             b: 'Bearish trend',
