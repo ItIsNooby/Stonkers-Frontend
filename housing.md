@@ -164,7 +164,7 @@ var questions = [
         correctAnswer: 'a'
     },
     {
-        question: 'Here is a graph of a stock. What does the pattern represent?<br><img src="![]({{site.baseurl}}/images/Bullish.png)" alt="Stock Graph">',
+        question: 'Here is a graph of a stock. What does the pattern represent?![]({{site.baseurl}}/images/Bullish.png "Stock Graph")',
         answers: {
             a: 'Bullish trend',
             b: 'Bearish trend',
@@ -202,7 +202,7 @@ function shuffleArray(array) {
 }
 function selectRandomQuestions() {
     var randomizedQuestions = shuffleArray(questions);
-    return randomizedQuestions.slice(0, 3);
+    return randomizedQuestions.slice(0, 5);
 }
 var selectedQuestions = selectRandomQuestions();
 function showQuestion() {
