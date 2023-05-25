@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
   <title>Stock Data</title>
@@ -139,6 +140,11 @@
       #stock-chart {
           max-width: 1200px;
           max-height: 1200px;
+      }
+
+      button {
+          background-color: lavender;
+          color: lavender;
       }
   </style>
 </head>
