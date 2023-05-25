@@ -26,8 +26,10 @@
                     data: {},
                     async: false, // Ensures synchronous execution of the requests
                     success: function(response) {
+                        console.log(response);
                         var stockName = response.symbol;
                         var latestPrice = response.price;
+                        console.log("Stock: " + stockName + ", Price: " + latestPrice); // Check the extracted stock name and price
                         var tableRow = {
                             symbol: stockName,
                             price: latestPrice,
