@@ -17,10 +17,10 @@
             var symbols = ["MSFT", "AAPL", "GOOGL", "AMZN", "TSLA", "META", "AMD"]; // Replace with your desired stock symbols
             var tableRows = [];
             symbols.forEach(function(symbol) {$.ajax({
-                    url: "https://yahoo-finance15.p.rapidapi.com/api/yahoo/qu/quote/" + symbol,
+                    url: "https://yahoo-finance127.p.rapidapi.com/price/eth-usd" + symbol,
                     headers: {
                         "X-RapidAPI-Key": "f094bea0c1mshcd62745f861872ep1d1239jsn8736f8b21167",
-                        "X-RapidAPI-Host": "yahoo-finance15.p.rapidapi.com"
+                        "X-RapidAPI-Host": "yahoo-finance127.p.rapidapi.com"
                     },
                     success: function(response) {
                         console.log(response);
