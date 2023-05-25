@@ -14,7 +14,7 @@
     <script>
         var favorites = []; // Array to store the favorite stocks
         function refreshTable() {
-            var symbols = ["MSFT", "AAPL", "GOOGL", "AMZN", "TSLA", "META", "AMD"]; // Replace with your desired stock symbols
+            var symbols = ["MSFT", "AAPL", "GOOGL", "AMZN", "TSLA", "META"]; // Replace with your desired stock symbols
             var tableRows = [];
             for (var i = 0; i < symbols.length; i++) {
                 var symbol = symbols[i];$.ajax({
