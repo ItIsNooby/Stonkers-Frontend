@@ -1,16 +1,60 @@
----
----
+/* Set background color to light blue */
+body {
+  background-color: #F0F8FF;
+}
 
-@import "{{ site.theme }}";
+/* Add a header with a green background and white text */
+header {
+  background-color: #2E8B57;
+  color: #fff;
+  padding: 20px;
+}
 
-/* "row style" is flexible size and aligns pictures in center */
-.row {
-    align-items: center;
-    display: flex;
-  }
-  
-  /* "column style" is one-third of the width with padding */
-  .column {
-    flex: 33.33%;
-    padding: 5px;
-  }
+/* Add a centered logo image to the header */
+header img {
+  display: block;
+  margin: 0 auto;
+  width: 200px;
+}
+
+/* Style the navigation links */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+nav a {
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+nav a:hover {
+  background-color: #fff;
+  color: #2E8B57;
+  border-radius: 10px;
+}
+
+/* Add a main content section with a gradient background */
+.main {
+  background: linear-gradient(to right, #fff, #F0F8FF);
+  padding: 50px;
+}
+
+/* Style the main content headings */
+.main h1, .main h2 {
+  color: #2E8B57;
+  font-weight: bold;
+}
+
+/* Add a footer section with a gray background and white text */
+footer {
+  background-color: #696969;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
