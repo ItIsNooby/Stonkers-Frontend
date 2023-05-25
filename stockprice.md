@@ -18,7 +18,7 @@
             var tableRows = [];
             for (var i = 0; i < symbols.length; i++) {
                 var symbol = symbols[i];$.ajax({
-                    url: "https://latest-stock-price.p.rapidapi.com/price?Indices=%3CREQUIRED%3E",
+                    url: "https://latest-stock-price.p.rapidapi.com/price",
                     headers: {
                         "X-RapidAPI-Key": "b731fee7a5mshf2b6608334c0b07p13bf5fjsn09fcf5df26f4", // Replace with your RapidAPI key
                         "X-RapidAPI-Host": "latest-stock-price.p.rapidapi.com"
@@ -28,12 +28,12 @@
                     },
                     async: false, // Ensures synchronous execution of the requests
                     success: function(data) {
-                        var stockName = data['symbol'];
-                        var latestPrice = data['price'];  
+                        var stockName = data.symbol;
+                        var latestPrice = data.price;
                         var tableRow = {
                             symbol: stockName,
                             price: latestPrice,
-                            favorite: favorites.includes(stockName) // Check if the stock is already a favorite
+                            favorite: favorites.includes(stockName)
                         };
                         tableRows.push(tableRow);
                     },
@@ -45,7 +45,7 @@
             renderTable(tableRows);
         }
         function renderTable(tableRows) {
-            var $tableBody = $("#stock-table tbody"); $tableBody.empty();
+            var $tableBody = $("#stock-table tbody");$tableBody.empty();
             for (var i = 0; i < tableRows.length; i++) {
                 var row = tableRows[i];
                 var favoriteIcon = row.favorite ? '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9733;</span>' : '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9734;</span>';
