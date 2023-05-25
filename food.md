@@ -145,7 +145,7 @@
 <body>
   <div>
       <label for="symbol-input">Stock Symbol:</label>
-      <input type="text" id="symbol-input" value="MSFT">
+      <input type="text" id="symbol-input">
       <button onclick="fetchAndDisplayStockData()">Fetch Data</button>
   </div>
   <canvas id="stock-chart"></canvas>
