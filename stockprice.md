@@ -14,34 +14,35 @@
     <script>
         var favorites = []; // Array to store the favorite stocks
         function refreshTable() {
-            var symbols = ["MSFT", "AAPL", "GOOGL", "AMZN", "TSLA", "META"]; // Replace with your desired stock symbols
+            var symbols = ["MSFT", "AAPL", "GOOGL", "AMZN", "TSLA", "META", "AMD"]; // Replace with your desired stock symbols
             var tableRows = [];
-            for (var i = 0; i < symbols.length; i++) {
-                var symbol = symbols[i];$.ajax({
-                    url: "https://latest-stock-price.p.rapidapi.com/price?symbol=" + symbol,
+            symbols.forEach(function(symbol) {$.ajax({
+                    url: "https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-profile",
                     headers: {
-                        "X-RapidAPI-Key": "f094bea0c1mshcd62745f861872ep1d1239jsn8736f8b21167", // Replace with your RapidAPI key
-                        "X-RapidAPI-Host": "latest-stock-price.p.rapidapi.com"
+                        "X-RapidAPI-Key": "f094bea0c1mshcd62745f861872ep1d1239jsn8736f8b21167",
+                        "X-RapidAPI-Host": "apidojo-yahoo-finance-v1.p.rapidapi.com"
                     },
-                    data: {},
+                    data: {
+                        symbol: symbol
+                    },
                     success: function(response) {
                         console.log(response);
-                        var stockName = response.symbol;
-                        var latestPrice = response.price;
-                        console.log("Stock: " + stockName + ", Price: " + latestPrice); // Check the extracted stock name and price
+                        var stockName = response.price.symbol;
+                        var latestPrice = response.price.regularMarketPrice.fmt;
+                        console.log("Stock: " + stockName + ", Price: " + latestPrice);
                         var tableRow = {
                             symbol: stockName,
                             price: latestPrice,
                             favorite: favorites.includes(stockName)
                         };
                         tableRows.push(tableRow);
+                        renderTable(tableRows);
                     },
-                    error: function() {
-                        console.log("Failed to fetch stock data for symbol: " + symbol);
+                    error: function(xhr, status, error) {
+                        console.log("Error:", status, error);
                     }
                 });
-            }
-            renderTable(tableRows);
+            });
         }
         function renderTable(tableRows) {
             var $tableBody = $("#stock-table tbody");$tableBody.empty();
@@ -59,7 +60,7 @@
             var rows = $table.find("tbody tr").toArray();
             rows.sort(function(a, b) {
                 var aValue = $(a).find("td").eq(columnIndex).text();
-                var bValue = $(b).find("td").eq(columnIndex).text();
+                var bValue = $(b).find("td").eq(columnIndex).text();   
                 if (columnIndex === 0) {
                     return aValue.localeCompare(bValue); // Sort alphabetically for stock column
                 } else {
