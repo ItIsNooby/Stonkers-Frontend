@@ -18,7 +18,7 @@
             var tableRows = [];
             for (var i = 0; i < symbols.length; i++) {
                 var symbol = symbols[i];$.ajax({
-                    url: "https://latest-stock-price.p.rapidapi.com/price?Indices=%3CREQUIRED%3E",
+                    url: "https://latest-stock-price.p.rapidapi.com/price",
                     headers: {
                         "X-RapidAPI-Key": "f094bea0c1mshcd62745f861872ep1d1239jsn8736f8b21167", // Replace with your RapidAPI key
                         "X-RapidAPI-Host": "latest-stock-price.p.rapidapi.com"
