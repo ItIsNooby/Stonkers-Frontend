@@ -1,4 +1,4 @@
-## How to Tell Analyze and Invest in Stocks
+## Stocks for Beginners
 
 How to tell the trends of a stock graph?
 
