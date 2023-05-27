@@ -19,7 +19,7 @@
             symbols.forEach(function(symbol) {$.ajax({
                     url: "https://quotient.p.rapidapi.com/options/prices",
                     headers: {
-                        "X-RapidAPI-Key": "YOUR_RAPIDAPI_KEY",
+                        "X-RapidAPI-Key": "f094bea0c1mshcd62745f861872ep1d1239jsn8736f8b21167",
                         "X-RapidAPI-Host": "quotient.p.rapidapi.com"
                     },
                     data: {
