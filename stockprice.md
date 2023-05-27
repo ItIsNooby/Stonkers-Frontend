@@ -27,17 +27,8 @@
                     },
                     success: function(response) {
                         console.log(response);
-                        var stockName = "N/A";
-                        var latestPrice = "N/A";
-                            if (response && response.data && response.data.length > 0) {
-                                  var option = response.data[0];
-                            if (option && option.strike) {
-                                stockName = option.strike.symbol;
-                            if (option.strike.price) {
-                                latestPrice = option.strike.price;
-                            }
-                        }
-                     }
+                        var stockName = response.symbol;
+                        var latestPrice = response.price;
                         console.log("Stock: " + stockName + ", Price: " + latestPrice);
                         var tableRow = {
                             symbol: stockName,
