@@ -14,18 +14,21 @@
     <script>
         var favorites = []; // Array to store the favorite stocks
         function refreshTable() {
-            var symbols = ["MSFT", "AAPL", "GOOGL"]; // Replace with your desired stock symbols
+            var symbols = ["AAPL", "GOOGL", "MSFT", "AMZN", "TSLA"]; // Replace with your desired stock symbols
             var tableRows = [];
             symbols.forEach(function(symbol) {$.ajax({
-                    url: "https://yahoo-finance127.p.rapidapi.com/price/" + symbol, // Corrected URL concatenation
+                    url: "https://quotient.p.rapidapi.com/options/prices",
                     headers: {
-                        "X-RapidAPI-Key": "f094bea0c1mshcd62745f861872ep1d1239jsn8736f8b21167",
-                        "X-RapidAPI-Host": "yahoo-finance127.p.rapidapi.com"
+                        "X-RapidAPI-Key": "YOUR_RAPIDAPI_KEY",
+                        "X-RapidAPI-Host": "quotient.p.rapidapi.com"
+                    },
+                    data: {
+                        symbol: symbol
                     },
                     success: function(response) {
                         console.log(response);
-                        var stockName = response.quoteResponse.result[0].symbol;
-                        var latestPrice = response.quoteResponse.result[0].regularMarketPrice.raw;
+                        var stockName = response.symbol;
+                        var latestPrice = response.price;
                         console.log("Stock: " + stockName + ", Price: " + latestPrice);
                         var tableRow = {
                             symbol: stockName,
@@ -54,17 +57,18 @@
         }
         function sortTable(columnIndex) {
             var $table = $("#stock-table");
-            var rows = $table.find("tbody tr").toArray(); 
+            var rows = $table.find("tbody tr").toArray();
             rows.sort(function(a, b) {
                 var aValue = $(a).find("td").eq(columnIndex).text();
-                var bValue = $(b).find("td").eq(columnIndex).text();    
+                var bValue = $(b).find("td").eq(columnIndex).text();
                 if (columnIndex === 0) {
                     return aValue.localeCompare(bValue); // Sort alphabetically for stock column
                 } else {
                     return parseFloat(bValue) - parseFloat(aValue); // Sort numerically for other columns
                 }
             });$table.find("tbody").empty().append(rows);
-        }        function toggleFavorite(rowIndex) {
+        }
+        function toggleFavorite(rowIndex) {
             var $table = $("#stock-table");
             var $row = $table.find("tbody tr").eq(rowIndex);
             var stockName = $row.find("td").eq(0).text();
