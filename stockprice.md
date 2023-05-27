@@ -30,9 +30,14 @@
                         var stockName = "N/A";
                         var latestPrice = "N/A";
                             if (response && response.data && response.data.length > 0) {
-                                stockName = response.data[0].symbol;
-                                latestPrice = response.data[0].price;
+                                  var option = response.data[0];
+                            if (option && option.strike) {
+                                stockName = option.strike.symbol;
+                            if (option.strike.price) {
+                                latestPrice = option.strike.price;
                             }
+                        }
+                     }
                         console.log("Stock: " + stockName + ", Price: " + latestPrice);
                         var tableRow = {
                             symbol: stockName,
