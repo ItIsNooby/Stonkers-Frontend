@@ -27,8 +27,12 @@
                     },
                     success: function(response) {
                         console.log(response);
-                        var stockName = response[0].symbol;
-                        var latestPrice = response[0].price;
+                        var stockName = "N/A";
+                        var latestPrice = "N/A";
+                            if (response && response.data && response.data.length > 0) {
+                                stockName = response.data[0].symbol;
+                                latestPrice = response.data[0].price;
+                            }
                         console.log("Stock: " + stockName + ", Price: " + latestPrice);
                         var tableRow = {
                             symbol: stockName,
