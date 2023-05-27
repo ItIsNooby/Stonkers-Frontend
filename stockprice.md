@@ -14,7 +14,7 @@
     <script>
         var favorites = []; // Array to store the favorite stocks
         function refreshTable() {
-            var symbols = ["MSFT", "AAPL", "GOOGL", "AMZN", "TSLA", "META", "AMD"]; // Replace with your desired stock symbols
+            var symbols = ["MSFT", "AAPL", "GOOGL"]; // Replace with your desired stock symbols
             var tableRows = [];
             symbols.forEach(function(symbol) {$.ajax({
                     url: "https://yahoo-finance127.p.rapidapi.com/price/" + symbol, // Corrected URL concatenation
