@@ -15,24 +15,29 @@
         var favorites = []; // Array to store the favorite stocks
         function refreshTable() {
             var symbols = ["AAPL", "GOOGL", "MSFT", "AMZN", "TSLA"]; // Replace with your desired stock symbols
-            var tableRows = [];
+            var tableRows = [];            
             symbols.forEach(function(symbol) {$.ajax({
-                    url: "https://quotient.p.rapidapi.com/options/prices",
+                    url: "https://alpha-vantage.p.rapidapi.com/query",
                     headers: {
                         "X-RapidAPI-Key": "f094bea0c1mshcd62745f861872ep1d1239jsn8736f8b21167",
-                        "X-RapidAPI-Host": "quotient.p.rapidapi.com"
+                        "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com"
                     },
                     data: {
+                        function: "GLOBAL_QUOTE",
                         symbol: symbol
                     },
                     success: function(response) {
                         console.log(response);
-                        var stockName = response.symbol;
-                        var latestPrice = response.price;
-                        console.log("Stock: " + stockName + ", Price: " + latestPrice);
+                        var stockName = response["Global Quote"]["01. symbol"];
+                        var latestPrice = response["Global Quote"]["05. price"];
+                        var openPrice = response["Global Quote"]["02. open"];
+                        var highestPrice = response["Global Quote"]["03. high"];
+                        console.log("Stock: " + stockName + ", Price: " + latestPrice + ", Open: " + openPrice + ", High: " + highestPrice);
                         var tableRow = {
                             symbol: stockName,
                             price: latestPrice,
+                            open: openPrice,
+                            high: highestPrice,
                             favorite: favorites.includes(stockName)
                         };
                         tableRows.push(tableRow);
@@ -48,11 +53,13 @@
             var $tableBody = $("#stock-table tbody");$tableBody.empty();
             for (var i = 0; i < tableRows.length; i++) {
                 var row = tableRows[i];
-                var favoriteIcon = row.favorite ? '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9733;</span>' : '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9734;</span>';
+                var favoriteIcon = row.favorite ? '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9733;</span>' : '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9734;</span>'; 
                 var tableRow = "<tr>" +
                     "<td>" + row.symbol + favoriteIcon + "</td>" +
                     "<td>" + row.price + "</td>" +
-                    "</tr>";$tableBody.append(tableRow);
+                    "<td>" + row.open + "</td>" +
+                    "<td>" + row.high + "</td>" +
+                    "</tr>"; $tableBody.append(tableRow);
             }
         }
         function sortTable(columnIndex) {
@@ -87,12 +94,10 @@
     <table id="stock-table">
         <thead>
             <tr>
-                <th class="sortable" onclick="sortTable(0)">
-                    Stock
-                </th>
-                <th class="sortable" onclick="sortTable(1)">
-                    Price
-                </th>
+                <th class="sortable" onclick="sortTable(0)">Stock</th>
+                <th class="sortable" onclick="sortTable(1)">Price</th>
+                <th class="sortable" onclick="sortTable(2)">Open</th>
+                <th class="sortable" onclick="sortTable(3)">High</th>
             </tr>
         </thead>
         <tbody>
