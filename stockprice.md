@@ -17,7 +17,6 @@
             var symbols = ["AAPL", "GOOGL", "MSFT", "AMZN", "TSLA"]; // Replace with your desired stock symbols
             var tableRows = [];
             symbols.forEach(function(symbol) {$.ajax({
-<<<<<<< HEAD
                     url: "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes",
                     headers: {
                         "X-RapidAPI-Key": "24a738dc44msh1340883298de7f6p133977jsnb8399f963780",
@@ -32,21 +31,6 @@
                         var quoteData = response.quoteResponse.result[0];
                         var stockName = quoteData.symbol;
                         var latestPrice = quoteData.regularMarketPrice.raw.toFixed(2);
-=======
-                    url: "https://alpha-vantage.p.rapidapi.com/query",
-                    headers: {
-                        "X-RapidAPI-Key": "f094bea0c1mshcd62745f861872ep1d1239jsn8736f8b21167",
-                        "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com"
-                    },
-                    data: {
-                        function: "GLOBAL_QUOTE",
-                        symbol: symbol
-                    },
-                    success: function(response) {
-                        console.log(response);  
-                        var stockName = response["Global Quote"]["01. symbol"];
-                        var latestPrice = response["Global Quote"]["05. price"];
->>>>>>> 210060d9d35e3d3292d810be6d98b7f2766b9177
                         console.log("Stock: " + stockName + ", Price: " + latestPrice);
                         var tableRow = {
                             symbol: stockName,
