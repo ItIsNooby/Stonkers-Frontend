@@ -38,6 +38,7 @@ body {
 <body>
 <div id="quiz">
     <h1>Stock Game Quiz</h1>
+    <img id="questionImage" src="" alt="question image" style="display: none;">
     <h2 id="question"></h2>
     <div class="answers">
         <input type="radio" name="answer" id="a" value="a">
@@ -164,30 +165,33 @@ var questions = [
         correctAnswer: 'a'
     },
     {
-        question: 'Here is a graph of a stock. What does the pattern represent?![]({{site.baseurl}}/images/Bullish.png "Stock Graph")',
+        question: 'Here is a graph of a stock. What does the pattern represent?',
         answers: {
             a: 'Bullish trend',
             b: 'Bearish trend',
             c: 'Consolidation phase'
         },
+        imageURL: 'https://raw.githubusercontent.com/ItIsNooby/Stonkers-Frontend/images/111550260/b76f5828-caa7-45c5-b37b-344eb9a42ccf',  //replace with correct URL
         correctAnswer: 'a'
     },
     {
-        question: 'What type of candlestick pattern is this?<br><img src="https://www.adigitalblogger.com/wp-content/uploads/shooting-star.png" alt="Candlestick Pattern">',
+        question: 'What type of candlestick pattern is this?',
         answers: {
             a: 'Hammer',
             b: 'Shooting Star',
             c: 'Doji'
         },
+        imageURL: 'https://raw.githubusercontent.com/{username}/{repository}/{branch}/{path_to_image}',  //replace with correct URL
         correctAnswer: 'b'
     },
     {
-        question: 'What does this type of volume pattern suggest?<br><img src="https://school.stockcharts.com/lib/exe/fetch.php?media=chart_analysis:candlestick_bearish_reversal_patterns:bearrev1-nke-bearengresist.png" alt="Volume Pattern">',
+        question: 'What does this type of volume pattern suggest?',
         answers: {
             a: 'Strong buying interest',
             b: 'Strong selling pressure',
             c: 'Low trading activity'
         },
+        imageURL: 'https://raw.githubusercontent.com/{username}/{repository}/{branch}/{path_to_image}',  //replace with correct URL
         correctAnswer: 'b'
     }
 ];
@@ -211,6 +215,14 @@ function showQuestion() {
     document.getElementById('a_text').textContent = q.answers.a;
     document.getElementById('b_text').textContent = q.answers.b;
     document.getElementById('c_text').textContent = q.answers.c;
+    // If the question has an image, show it. Otherwise, hide the img element.
+    var questionImage = document.getElementById('questionImage');
+    if (q.imageURL) {
+        questionImage.src = q.imageURL;
+        questionImage.style.display = '';
+    } else {
+        questionImage.style.display = 'none';
+    }
 }
 function checkAnswer() {
     var selectedAnswer = document.querySelector('input[name="answer"]:checked').value;

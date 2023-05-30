@@ -14,9 +14,10 @@
     <script>
         var favorites = []; // Array to store the favorite stocks
         function refreshTable() {
-            var symbols = ["MSFT", "AAPL", "GOOGL", "AMZN", "TSLA", "META", "AMD"]; // Replace with your desired stock symbols
+            var symbols = ["AAPL", "GOOGL", "MSFT", "AMZN", "TSLA"]; // Replace with your desired stock symbols
             var tableRows = [];
             symbols.forEach(function(symbol) {$.ajax({
+<<<<<<< HEAD
                     url: "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes",
                     headers: {
                         "X-RapidAPI-Key": "24a738dc44msh1340883298de7f6p133977jsnb8399f963780",
@@ -31,6 +32,21 @@
                         var quoteData = response.quoteResponse.result[0];
                         var stockName = quoteData.symbol;
                         var latestPrice = quoteData.regularMarketPrice.raw.toFixed(2);
+=======
+                    url: "https://alpha-vantage.p.rapidapi.com/query",
+                    headers: {
+                        "X-RapidAPI-Key": "f094bea0c1mshcd62745f861872ep1d1239jsn8736f8b21167",
+                        "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com"
+                    },
+                    data: {
+                        function: "GLOBAL_QUOTE",
+                        symbol: symbol
+                    },
+                    success: function(response) {
+                        console.log(response);  
+                        var stockName = response["Global Quote"]["01. symbol"];
+                        var latestPrice = response["Global Quote"]["05. price"];
+>>>>>>> 210060d9d35e3d3292d810be6d98b7f2766b9177
                         console.log("Stock: " + stockName + ", Price: " + latestPrice);
                         var tableRow = {
                             symbol: stockName,
@@ -59,16 +75,16 @@
         }
         function sortTable(columnIndex) {
             var $table = $("#stock-table");
-            var rows = $table.find("tbody tr").toArray();
+            var rows = $table.find("tbody tr").toArray();  
             rows.sort(function(a, b) {
                 var aValue = $(a).find("td").eq(columnIndex).text();
-                var bValue = $(b).find("td").eq(columnIndex).text();   
+                var bValue = $(b).find("td").eq(columnIndex).text();     
                 if (columnIndex === 0) {
                     return aValue.localeCompare(bValue); // Sort alphabetically for stock column
                 } else {
                     return parseFloat(bValue) - parseFloat(aValue); // Sort numerically for other columns
                 }
-            });$table.find("tbody").empty().append(rows);
+            }); $table.find("tbody").empty().append(rows);
         }
         function toggleFavorite(rowIndex) {
             var $table = $("#stock-table");
@@ -77,7 +93,7 @@
             if (favorites.includes(stockName)) {
                 favorites = favorites.filter(function(value) {
                     return value !== stockName;
-                });$row.find(".favorite").html("&#9734;");
+                });   $row.find(".favorite").html("&#9734;");
             } else {
                 favorites.push(stockName);$row.find(".favorite").html("&#9733;");
             }
@@ -89,12 +105,8 @@
     <table id="stock-table">
         <thead>
             <tr>
-                <th class="sortable" onclick="sortTable(0)">
-                    Stock
-                </th>
-                <th class="sortable" onclick="sortTable(1)">
-                    Price
-                </th>
+                <th class="sortable" onclick="sortTable(0)">Stock</th>
+                <th class="sortable" onclick="sortTable(1)">Price</th>
             </tr>
         </thead>
         <tbody>

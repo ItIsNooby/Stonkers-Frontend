@@ -1,195 +1,193 @@
 <html>
 <head>
-    <title>Stock Data</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+  <title>Stock Data</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+      var charts = []; // Array to hold the chart objects
+      var datasets = []; // Array to hold the chart datasets
+      var maxDataPoints = 100; // Maximum number of data points to display on the chart
 
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+      function fetchAndDisplayStockData(symbol, chartIndex) {
+          // Make a GET request to fetch new data from the API
+          $.ajax({
+              url: "https://alpha-vantage.p.rapidapi.com/query",
+              headers: {
+                  "X-RapidAPI-Key": "86d3c88c86mshe0398d184fbafbdp102e5bjsn36861be80236", // Replace with your RapidAPI key
+                  "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com"
+              },
+              data: {
+                  interval: "1min",
+                  function: "TIME_SERIES_INTRADAY",
+                  symbol: symbol,
+                  datatype: "json",
+                  output_size: "compact"
+              },
+              success: function(data) {
+                  // Clear the existing datasets
+                  datasets[chartIndex] = [];
+                  // Extract the time series data
+                  var timeSeriesData = data['Time Series (1min)'];
+                  var timestamps = Object.keys(timeSeriesData);
+                  var openData = [];
+                  var highData = [];
+                  var lowData = [];
+                  var closeData = [];
+                  // Extract the OHLC (open, high, low, close) data for the chart
+                  for (var i = timestamps.length - 1; i >= 0; i--) {
+                      var timestamp = timestamps[i];
+                      var row = timeSeriesData[timestamp];
+                      openData.push(row['1. open']);
+                      highData.push(row['2. high']);
+                      lowData.push(row['3. low']);
+                      closeData.push(row['4. close']);
+                  }
+                  // Reverse the order of timestamps and data arrays
+                  timestamps.reverse();
+                  openData.reverse();
+                  highData.reverse();
+                  lowData.reverse();
+                  closeData.reverse();
+                  // Trim the data arrays to the maximum number of data points
+                  if (timestamps.length > maxDataPoints) {
+                      timestamps = timestamps.slice(timestamps.length - maxDataPoints);
+                      openData = openData.slice(openData.length - maxDataPoints);
+                      highData = highData.slice(highData.length - maxDataPoints);
+                      lowData = lowData.slice(lowData.length - maxDataPoints);
+                      closeData = closeData.slice(closeData.length - maxDataPoints);
+                  }
+                  // Create the chart datasets
+                  datasets[chartIndex].push({
+                      label: 'Open',
+                      data: openData,
+                      borderColor: 'rgba(255, 99, 132, 1)',
+                      fill: false
+                  });
+                  datasets[chartIndex].push({
+                      label: 'High',
+                      data: highData,
+                      borderColor: 'rgba(54, 162, 235, 1)',
+                      fill: false
+                  });
+                  datasets[chartIndex].push({
+                      label: 'Low',
+                      data: lowData,
+                      borderColor: 'rgba(75, 192, 192, 1)',
+                      fill: false
+                  });
+                  datasets[chartIndex].push({
+                      label: 'Close',
+                      data: closeData,
+                      borderColor: 'rgba(153, 102, 255, 1)',
+                      fill: false
+                  });
+                  // Destroy the existing chart (if any)
+                  if (charts[chartIndex]) {
+                      charts[chartIndex].destroy();
+                  }
+                  // Create a new chart with the updated data
+                  var ctx = document.getElementById('chart-' + chartIndex).getContext('2d');
+                  charts[chartIndex] = new Chart(ctx, {
+                      type: 'line',
+                      data: {
+                          labels: timestamps.map(function(timestamp) {
+                              return timestamp.split(' ')[1]; // Extract the time from the timestamp
+                          }),
+                          datasets: datasets[chartIndex]
+                      },
+                      options: {
+                          responsive: true,
+                          maintainAspectRatio: false, // Set maintainAspectRatio to false
+                          scales: {
+                              x: {
+                                  display: true,
+                                  title: {
+                                      display: true,
+                                      text: 'Time'
+                                  },
+                                  ticks: {
+                                      maxRotation: 0 // Prevent label rotation on the X-axis
+                                  }
+                              },
+                              y: {
+                                  display: true,
+                                  title: {
+                                      display: true,
+                                      text: 'Price'
+                                  }
+                              }
+                          },
+                          layout: {
+                              padding: {
+                                  left: 50,
+                                  right: 50,
+                                  top: 50,
+                                  bottom: 50
+                              }
+                          }
+                      }
+                  });
+              },
+              error: function() {
+                  console.log("Failed to fetch stock data.");
+              }
+          });
+      }
+  </script>
+  <style>
+      .chart-container {
+          display: inline-block;
+          width: 800px;
+          height: 500px;
+          margin-right: 50px;
+      }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+      .chart-canvas {
+          max-width: 100%;
+          max-height: 100%;
+      }
 
-        .input-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .input-container label {
-            margin-right: 10px;
-        }
-
-        .chart-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-
-        .chart-container {
-            width: 45%;
-            background-color: #000;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .fetch-button {
-            display: block;
-            margin: 0 auto;
-            margin-bottom: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .fetch-button:hover {
-            background-color: #45a049;
-        }
-
-        canvas {
-            width: 100%;
-        }
-    </style>
+      button {
+          background-color: lavender;
+          color: lavender;
+      }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="input-container">
-            <label for="symbol-input-1">Stock Symbol 1:</label>
-            <input type="text" id="symbol-input-1" value="MSFT">
-            <label for="symbol-input-2">Stock Symbol 2:</label>
-            <input type="text" id="symbol-input-2" value="AAPL">
-            <label for="symbol-input-3">Stock Symbol 3:</label>
-            <input type="text" id="symbol-input-3" value="GOOGL">
-            <label for="symbol-input-4">Stock Symbol 4:</label>
-            <input type="text" id="symbol-input-4" value="AMZN">
-            <button class="fetch-button" onclick="fetchAndDisplayStockData()">Fetch Data</button>
-        </div>
-        <div class="chart-row">
-            <div class="chart-container">
-                <canvas id="stock-chart-1"></canvas>
-            </div>
-            <div class="chart-container">
-                <canvas id="stock-chart-2"></canvas>
-            </div>
-        </div>
-        <div class="chart-row">
-            <div class="chart-container">
-                <canvas id="stock-chart-3"></canvas>
-            </div>
-            <div class="chart-container">
-                <canvas id="stock-chart-4"></canvas>
-            </div>
-        </div>
-    </div>
+  <div>
+      <label for="symbol-input-1">Stock Symbol 1:</label>
+      <input type="text" id="symbol-input-1">
+      <button onclick="fetchAndDisplayStockData($('#symbol-input-1').val(), 0)">Fetch Data</button>
+  </div>
+  <div class="chart-container">
+      <canvas id="chart-0" class="chart-canvas"></canvas>
+  </div>
 
-    <script>
-        var maxDataPoints = 100; // Maximum number of data points to display on the chart
-        var charts = []; // Array to hold the chart objects
+  <div>
+      <label for="symbol-input-2">Stock Symbol 2:</label>
+      <input type="text" id="symbol-input-2">
+      <button onclick="fetchAndDisplayStockData($('#symbol-input-2').val(), 1)">Fetch Data</button>
+  </div>
+  <div class="chart-container">
+      <canvas id="chart-1" class="chart-canvas"></canvas>
+  </div>
 
-        function fetchAndDisplayStockData() {
-            // Get the stock symbols from the input fields
-            var symbols = [
-                document.getElementById("symbol-input-1").value,
-                document.getElementById("symbol-input-2").value,
-                document.getElementById("symbol-input-3").value,
-                document.getElementById("symbol-input-4").value
-            ];
+  <div>
+      <label for="symbol-input-3">Stock Symbol 3:</label>
+      <input type="text" id="symbol-input-3">
+      <button onclick="fetchAndDisplayStockData($('#symbol-input-3').val(), 2)">Fetch Data</button>
+  </div>
+  <div class="chart-container">
+      <canvas id="chart-2" class="chart-canvas"></canvas>
+  </div>
 
-            symbols.forEach(function(symbol, index) {
-                // Make a GET request to fetch new data from the API
-                $.ajax({
-                    url: "https://alpha-vantage.p.rapidapi.com/query",
-                    headers: {
-                        "X-RapidAPI-Key": "YOUR_RAPIDAPI_KEY",
-                        "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com"
-                    },
-                    data: {
-                        interval: "1min",
-                        function: "TIME_SERIES_INTRADAY",
-                        symbol: symbol,
-                        datatype: "json",
-                        output_size: "compact"
-                    },
-                    success: function(data) {
-                        // Extract the time series data
-                        var timeSeriesData = data['Time Series (1min)'];
-                        var timestamps = Object.keys(timeSeriesData);
-                        var closeData = [];
-
-                        // Extract the close data for the chart
-                        for (var i = timestamps.length - 1; i >= 0; i--) {
-                            var timestamp = timestamps[i];
-                            var row = timeSeriesData[timestamp];
-                            closeData.push(parseFloat(row['4. close']));
-                        }
-
-                        // Trim the data arrays to the maximum number of data points
-                        if (timestamps.length > maxDataPoints) {
-                            timestamps = timestamps.slice(timestamps.length - maxDataPoints);
-                            closeData = closeData.slice(closeData.length - maxDataPoints);
-                        }
-
-                        // Destroy the existing chart (if any)
-                        if (charts[index]) {
-                            charts[index].destroy();
-                        }
-
-                        // Create a new chart with the updated data
-                        var ctx = document.getElementById('stock-chart-' + (index + 1)).getContext('2d');
-                        charts[index] = new Chart(ctx, {
-                            type: 'line',
-                            data: {
-                                labels: timestamps,
-                                datasets: [{
-                                    label: symbol,
-                                    data: closeData,
-                                    borderColor: 'rgba(75, 192, 192, 1)',
-                                    fill: false
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                scales: {
-                                    x: {
-                                        display: true,
-                                        title: {
-                                            display: true,
-                                            text: 'Time'
-                                        }
-                                    },
-                                    y: {
-                                        display: true,
-                                        title: {
-                                            display: true,
-                                            text: 'Price'
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    },
-                    error: function() {
-                        console.log("Failed to fetch stock data for " + symbol + ".");
-                    }
-                });
-            });
-        }
-    </script>
+  <div>
+      <label for="symbol-input-4">Stock Symbol 4:</label>
+      <input type="text" id="symbol-input-4">
+      <button onclick="fetchAndDisplayStockData($('#symbol-input-4').val(), 3)">Fetch Data</button>
+  </div>
+  <div class="chart-container">
+      <canvas id="chart-3" class="chart-canvas"></canvas>
+  </div>
 </body>
 </html>
