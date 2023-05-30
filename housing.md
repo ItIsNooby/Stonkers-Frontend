@@ -165,13 +165,22 @@ var questions = [
         correctAnswer: 'a'
     },
     {
+    question: 'What is a stock split?',
+    answers: {
+        a: 'A strategy used by companies to decrease the price of individual shares by increasing the number of shares',
+        b: 'A strategy used by companies to increase the price of individual shares by decreasing the number of shares',
+        c: 'A situation where a company divides its assets equally among shareholders'
+    },
+    correctAnswer: 'a'
+    },
+    {
         question: 'Here is a graph of a stock. What does the pattern represent?',
         answers: {
             a: 'Bullish trend',
             b: 'Bearish trend',
             c: 'Consolidation phase'
         },
-        imageURL: 'https://raw.githubusercontent.com/ItIsNooby/Stonkers-Frontend/images/111550260/b76f5828-caa7-45c5-b37b-344eb9a42ccf',  //replace with correct URL
+        imageURL: 'https://a.c-dn.net/c/content/dam/publicsites/igcom/uk/images/ContentImage/Cup%20and%20handle.png',  //replace with correct URL
         correctAnswer: 'a'
     },
     {
@@ -181,7 +190,7 @@ var questions = [
             b: 'Shooting Star',
             c: 'Doji'
         },
-        imageURL: 'https://raw.githubusercontent.com/{username}/{repository}/{branch}/{path_to_image}',  //replace with correct URL
+        imageURL: 'https://www.adigitalblogger.com/wp-content/uploads/shooting-star.png',  //replace with correct URL
         correctAnswer: 'b'
     },
     {
@@ -191,8 +200,78 @@ var questions = [
             b: 'Strong selling pressure',
             c: 'Low trading activity'
         },
-        imageURL: 'https://raw.githubusercontent.com/{username}/{repository}/{branch}/{path_to_image}',  //replace with correct URL
+        imageURL: 'https://school.stockcharts.com/lib/exe/fetch.php?media=chart_analysis:candlestick_bearish_reversal_patterns:bearrev1-nke-bearengresist.png',  //replace with correct URL
         correctAnswer: 'b'
+    },
+        {
+        question: 'What is this chart pattern called?',
+        answers: {
+            a: 'Head and Shoulders',
+            b: 'Double Top',
+            c: 'Cup and Handle'
+        },
+        imageURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBIT6kGYcWe6G9QB6j7dPEAPLxVGFHk7tidA&usqp=CAU',  //replace with correct URL
+        correctAnswer: 'a'
+    },
+    {
+        question: 'What is this candlestick pattern called?',
+        answers: {
+            a: 'Bullish Engulfing',
+            b: 'Doji',
+            c: 'Bearish Engulfing'
+        },
+        imageURL: 'https://a.c-dn.net/c/content/dam/publicsites/igcom/uk/images/ContentImage/doji%20patterns@2x%20(002).png',  //replace with correct URL
+        correctAnswer: 'b'
+    },
+    {
+        question: 'What does this volume pattern suggest?',
+        answers: {
+            a: 'Market Consolidation',
+            b: 'Buying Pressure',
+            c: 'Selling Pressure'
+        },
+        imageURL: 'https://www.marketvolume.com/vsa/img/upthrust-bar.png',  //replace with correct URL
+        correctAnswer: 'c'
+    },
+    {
+        question: 'What is this chart pattern called?',
+        answers: {
+            a: 'Falling Wedge',
+            b: 'Rising Wedge',
+            c: 'Bull Flag'
+        },
+        imageURL: 'https://bpcdn.co/images/2016/05/grade7-falling-wedge-reversal-before.png',  //replace with correct URL
+        correctAnswer: 'a'
+    },
+    {
+        question: 'What does this type of candlestick pattern suggest?',
+        answers: {
+            a: 'Bullish Reversal',
+            b: 'Bearish Reversal',
+            c: 'Market Consolidation'
+        },
+        imageURL: 'https://www.incrediblecharts.com/images/png_images/sna_stock_screen_consolidation.png',  //replace with correct URL
+        correctAnswer: 'c'
+    },
+    {
+        question: 'What is this chart pattern called?',
+        answers: {
+            a: 'Bull Flag',
+            b: 'Bear Flag',
+            c: 'Pennant'
+        },
+        imageURL: 'https://media.warriortrading.com/2020/07/28111357/shutterstock_1407751412.jpg',  //replace with correct URL
+        correctAnswer: 'c'
+    },
+    {
+        question: 'What does this volume pattern suggest?',
+        answers: {
+            a: 'Buying Pressure',
+            b: 'Selling Pressure',
+            c: 'Market Consolidation'
+        },
+        imageURL: 'https://qph.cf2.quoracdn.net/main-qimg-a823fdcc41eed80a908f407dfb04ebf0-pjlq',  //replace with correct URL
+        correctAnswer: 'a'
     }
 ];
 function shuffleArray(array) {
@@ -206,7 +285,7 @@ function shuffleArray(array) {
 }
 function selectRandomQuestions() {
     var randomizedQuestions = shuffleArray(questions);
-    return randomizedQuestions.slice(0, 5);
+    return randomizedQuestions.slice(0, 10);
 }
 var selectedQuestions = selectRandomQuestions();
 function showQuestion() {
