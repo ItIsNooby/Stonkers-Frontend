@@ -2,7 +2,7 @@
 
 <b>How to tell the trends of a stock graph?</b>
 
-Graphs for stocks can vary from stock to stock, whether it goes up, down, or stays on a steady trend. Stocks that move up over a period of time with a series of higher highs and higher lows are essentially in uptrends; stocks that move down with lower highs and lower lows over a period of time are in downtrends. 
+Graphs for stocks can vary from stock to stock, whether it goes up, down, or stays on a steady trend. Stocks that move up over a period of time with a series of higher highs and higher lows are essentially in uptrends; stocks that move down with lower highs and lower lows over a period of time are in downtrends fr. 
 
 ![image](https://github.com/DerekSol/Tera/assets/111466901/0bf3e100-3615-4634-b027-b867717c73d2)
 
