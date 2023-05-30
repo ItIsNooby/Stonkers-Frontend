@@ -12,15 +12,20 @@
         }
     </style>
     <script>
-        var favorites = []; // Array to store the favorite stocks
+        var favorites = [];$(document).ready(function() {
+            // Load the favorites from localStorage when the page loads
+            loadFavoritesFromLocalStorage();
+            // Call a function to load the table with stock data
+            refreshTable();
+        });
         function refreshTable() {
-            var symbols = ["MSFT", "AAPL", "GOOGL", "AMZN", "TSLA", "META", "AMD"];  // Replace with your desired stock symbols
+            var symbols = ["MSFT", "AAPL", "GOOGL", "AMZN", "TSLA", "META", "AMD"];
             var tableRows = [];
             for (var i = 0; i < symbols.length; i++) {
                 var symbol = symbols[i];$.ajax({
                     url: "https://alpha-vantage.p.rapidapi.com/query",
                     headers: {
-                        "X-RapidAPI-Key": "86d3c88c86mshe0398d184fbafbdp102e5bjsn36861be80236", // Replace with your RapidAPI key
+                        "X-RapidAPI-Key": "86d3c88c86mshe0398d184fbafbdp102e5bjsn36861be80236",
                         "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com"
                     },
                     data: {
@@ -30,7 +35,7 @@
                         datatype: "json",
                         output_size: "compact"
                     },
-                    async: false,  // Ensures synchronous execution of the requests
+                    async: false,
                     success: function(data) {
                         var timeSeriesData = data['Time Series (5min)'];
                         var stockName = data['Meta Data']['2. Symbol'];
@@ -44,7 +49,7 @@
                             low: row['3. low'],
                             close: row['4. close'],
                             volume: row['5. volume'],
-                            favorite: favorites.includes(stockName) // Check if the stock is already a favorite
+                            favorite: favorites.includes(stockName)
                         };
                         tableRows.push(tableRow);
                     },
@@ -57,7 +62,7 @@
         }
         function getLatestTimestamp(timeSeriesData) {
             var timestamps = Object.keys(timeSeriesData);
-            return timestamps[0];  // Assumes the timestamps are in descending order
+            return timestamps[0];
         }
         function renderTable(tableRows) {
             var $tableBody = $("#stock-table tbody");$tableBody.empty();
@@ -75,19 +80,6 @@
                     "</tr>";$tableBody.append(tableRow);
             }
         }
-function sortTable(columnIndex) {
-            var $table = $("#stock-table");
-            var rows = $table.find("tbody tr").toArray();
-            rows.sort(function(a, b) {
-                var aValue = $(a).find("td").eq(columnIndex).text();
-                var bValue = $(b).find("td").eq(columnIndex).text();
-                if (columnIndex === 0) {
-                    return aValue.localeCompare(bValue);  // Sort alphabetically for stock column
-                } else {
-                    return parseFloat(bValue) - parseFloat(aValue);  // Sort numerically for other columns
-                }
-            });$table.find("tbody").empty().append(rows);
-        }
         function toggleFavorite(rowIndex) {
             var $table = $("#stock-table");
             var $row = $table.find("tbody tr").eq(rowIndex);
@@ -99,6 +91,16 @@ function sortTable(columnIndex) {
             } else {
                 favorites.push(stockName);$row.find(".favorite").html("&#9733;");
             }
+            saveFavoritesToLocalStorage(); // Save the favorites to localStorage
+        }
+        function loadFavoritesFromLocalStorage() {
+            var storedFavorites = localStorage.getItem("favorites");
+            if (storedFavorites) {
+                favorites = JSON.parse(storedFavorites);
+            }
+        }
+        function saveFavoritesToLocalStorage() {
+            localStorage.setItem("favorites", JSON.stringify(favorites));
         }
     </script>
 </head>
@@ -107,27 +109,13 @@ function sortTable(columnIndex) {
     <table id="stock-table">
         <thead>
             <tr>
-                <th class="sortable" onclick="sortTable(0)">
-                    Stock
-                </th>
-                <th class="sortable" onclick="sortTable(1)">
-                    Timestamp
-                </th>
-                <th class="sortable" onclick="sortTable(2)">
-                    Open
-                </th>
-                <th class="sortable" onclick="sortTable(3)">
-                    High
-                </th>
-                <th class="sortable" onclick="sortTable(4)">
-                    Low
-                </th>
-                <th class="sortable" onclick="sortTable(5)">
-                    Close
-                </th>
-                <th class="sortable" onclick="sortTable(6)">
-                    Volume
-                </th>
+                <th class="sortable" onclick="sortTable(0)">Stock</th>
+                <th class="sortable" onclick="sortTable(1)">Timestamp</th>
+                <th class="sortable" onclick="sortTable(2)">Open</th>
+                <th class="sortable" onclick="sortTable(3)">High</th>
+                <th class="sortable" onclick="sortTable(4)">Low</th>
+                <th class="sortable" onclick="sortTable(5)">Close</th>
+                <th class="sortable" onclick="sortTable(6)">Volume</th>
             </tr>
         </thead>
         <tbody>

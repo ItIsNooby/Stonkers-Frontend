@@ -13,9 +13,7 @@
     </style>
     <script>
         var favorites = [];$(document).ready(function() {
-            // Load the favorited stocks from localStorage when the page loads
             loadFavoritesFromLocalStorage();
-            // Call a function to load the favorited stocks table
             loadFavoritesTable();
         });
         function loadFavoritesFromLocalStorage() {
@@ -29,12 +27,11 @@
         }
         function loadFavoritesTable() {
             var tableRows = [];
-            // Iterate through the favorite stocks
             for (var i = 0; i < favorites.length; i++) {
                 var symbol = favorites[i];$.ajax({
                     url: "https://alpha-vantage.p.rapidapi.com/query",
                     headers: {
-                        "X-RapidAPI-Key": "86d3c88c86mshe0398d184fbafbdp102e5bjsn36861be80236", // Replace with your RapidAPI key
+                        "X-RapidAPI-Key": "86d3c88c86mshe0398d184fbafbdp102e5bjsn36861be80236",
                         "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com"
                     },
                     data: {
@@ -44,7 +41,7 @@
                         datatype: "json",
                         output_size: "compact"
                     },
-                    async: false,  // Ensures synchronous execution of the requests
+                    async: false,
                     success: function(data) {
                         var timeSeriesData = data['Time Series (5min)'];
                         var stockName = data['Meta Data']['2. Symbol'];
@@ -71,7 +68,7 @@
         }
         function getLatestTimestamp(timeSeriesData) {
             var timestamps = Object.keys(timeSeriesData);
-            return timestamps[0];  // Assumes the timestamps are in descending order
+            return timestamps[0];
         }
         function renderTable(tableRows) {
             var $tableBody = $("#favorites-table tbody");$tableBody.empty();
@@ -97,7 +94,7 @@
     </script>
 </head>
 <body>
-    <h1>Favorited Stocks</h1>
+    <h1>Favorite Stocks</h1>
     <table id="favorites-table">
         <thead>
             <tr>
@@ -111,7 +108,7 @@
             </tr>
         </thead>
         <tbody>
-            <!-- The table body will be populated with favorited stocks data -->
+            <!-- The table body will be populated with favorite stocks data -->
         </tbody>
     </table>
 </body>
