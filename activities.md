@@ -19,7 +19,7 @@
             refreshTable();
         });
         function refreshTable() {
-            var symbols = ["MSFT", "AAPL", "GOOGL", "AMZN", "TSLA", "META", "AMD"];
+            var symbols = ["MSFT", "AAPL", "GOOGL", "AMZN"];
             var tableRows = [];
             for (var i = 0; i < symbols.length; i++) {
                 var symbol = symbols[i];$.ajax({
@@ -105,7 +105,7 @@
     </script>
 </head>
 <body>
-    <button onclick="refreshTable()">View Data</button>
+    <button onclick="refreshTable()">Refresh Data</button>
     <table id="stock-table">
         <thead>
             <tr>
