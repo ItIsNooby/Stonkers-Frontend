@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>My Favorite Stocks</title>
+    <title>Favorites</title>
     <style>
         table {
             border-collapse: collapse;
