@@ -4,7 +4,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .sortable {
-            cursor: pointer;
+            cursor: pointer; 
         }
         .favorite {
             color: gold;
