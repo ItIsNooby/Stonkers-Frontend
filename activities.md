@@ -4,7 +4,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .sortable {
-            cursor: pointer;
+            cursor: pointer; 
         }
         .favorite {
             color: gold;
@@ -50,7 +50,6 @@
                             favorite: favorites.includes(stockName)
                         };
                         tableRows.push(tableRow);
-                        addToFavorites(tableRow);
                     },
                     error: function() {
                         console.log("Failed to fetch stock data for symbol: " + symbol);
@@ -59,7 +58,6 @@
             }
             renderTable(tableRows);
             saveStockDataToLocalStorage(tableRows);
-            saveFavoritesToLocalStorage(); // Save favorites to localStorage
         }
         function getLatestTimestamp(timeSeriesData) {
             var timestamps = Object.keys(timeSeriesData);
@@ -84,15 +82,22 @@
         function toggleFavorite(rowIndex) {
             var $table = $("#stock-table");
             var $row = $table.find("tbody tr").eq(rowIndex);
-            var stockName = $row.find("td").eq(0).text();
-            if (favorites.includes(stockName)) {
-                favorites = favorites.filter(function(value) {
-                    return value !== stockName;
+            var symbol = $row.find("td").eq(0).text();
+            var stockData = loadStockDataFromLocalStorage();
+            var favoriteIndex = favorites.indexOf(symbol);
+            if (favoriteIndex > -1) {
+                favorites.splice(favoriteIndex, 1);
+                stockData = stockData.filter(function(row) {
+                    return row.symbol !== symbol;
                 });$row.find(".favorite").html("&#9734;");
             } else {
-                favorites.push(stockName);$row.find(".favorite").html("&#9733;");
+                favorites.push(symbol);
+                var rowData = getTableRowData($row);
+                rowData.favorite = true;
+                stockData.push(rowData);$row.find(".favorite").html("&#9733;");
             }
             saveFavoritesToLocalStorage();
+            saveStockDataToLocalStorage(stockData);
         }
         function loadFavoritesFromLocalStorage() {
             var storedFavorites = localStorage.getItem("favorites");
@@ -103,8 +108,8 @@
         function saveFavoritesToLocalStorage() {
             localStorage.setItem("favorites", JSON.stringify(favorites));
         }
-        function saveStockDataToLocalStorage(tableRows) {
-            localStorage.setItem("stockData", JSON.stringify(tableRows));
+        function saveStockDataToLocalStorage(stockData) {
+            localStorage.setItem("stockData", JSON.stringify(stockData));
         }
         function loadStockDataFromLocalStorage() {
             var storedStockData = localStorage.getItem("stockData");
@@ -113,14 +118,17 @@
             }
             return [];
         }
-        function addToFavorites(stockData) {
-            var storedFavorites = localStorage.getItem("favorites");
-            if (storedFavorites) {
-                favorites = JSON.parse(storedFavorites);
-            }
-            if (stockData.favorite && !favorites.includes(stockData.symbol)) {
-                favorites.push(stockData.symbol);
-            }
+        function getTableRowData($row) {
+            return {
+                symbol: $row.find("td").eq(0).text(),
+                timestamp: $row.find("td").eq(1).text(),
+                open: $row.find("td").eq(2).text(),
+                high: $row.find("td").eq(3).text(),
+                low: $row.find("td").eq(4).text(),
+                close: $row.find("td").eq(5).text(),
+                volume: $row.find("td").eq(6).text(),
+                favorite: false
+            };
         }
     </script>
 </head>

@@ -43,7 +43,7 @@
             }
         }
         function renderTable() {
-            var $tableBody = $("#favorites-table tbody"); $tableBody.empty();
+            var $tableBody = $("#favorites-table tbody");$tableBody.empty();
             for (var i = 0; i < favorites.length; i++) {
                 var stockData = favorites[i];
                 var symbol = stockData.symbol || "";
