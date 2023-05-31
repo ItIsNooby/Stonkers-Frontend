@@ -14,7 +14,7 @@
     <script>
         var favorites = [];$(document).ready(function() {
             loadFavoritesFromLocalStorage();
-            renderTable();
+            loadFavoritesTable();
         });
         function loadFavoritesFromLocalStorage() {
             var storedFavorites = localStorage.getItem("favorites");
@@ -22,41 +22,59 @@
                 favorites = JSON.parse(storedFavorites);
             }
         }
-        function renderTable() {
+        function saveFavoritesToLocalStorage() {
+            localStorage.setItem("favorites", JSON.stringify(favorites));
+        }
+        function loadFavoritesTable() {
             var tableRows = [];
             for (var i = 0; i < favorites.length; i++) {
-                var symbol = favorites[i];
-                var stockData = localStorage.getItem(symbol);
-                if (stockData) {
-                    var data = JSON.parse(stockData);
-                    var latestTimestamp = getLatestTimestamp(data);
-                    var row = data[latestTimestamp];
-                    var tableRow = {
+                var symbol = favorites[i];$.ajax({
+                    url: "https://alpha-vantage.p.rapidapi.com/query",
+                    headers: {
+                        "X-RapidAPI-Key": "24a738dc44msh1340883298de7f6p133977jsnb8399f963780",
+                        "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com"
+                    },
+                    data: {
+                        interval: "5min",
+                        function: "TIME_SERIES_INTRADAY",
                         symbol: symbol,
-                        timestamp: latestTimestamp,
-                        open: row['1. open'],
-                        high: row['2. high'],
-                        low: row['3. low'],
-                        close: row['4. close'],
-                        volume: row['5. volume'],
-                        favorite: true
-                    };
-                    tableRows.push(tableRow);
-                } else {
-                    console.log("No stored data found for symbol: " + symbol);
-                }
+                        datatype: "json",
+                        output_size: "compact"
+                    },
+                    async: false,
+                    success: function(data) {
+                        var timeSeriesData = data['Time Series (5min)'];
+                        var stockName = data['Meta Data']['2. Symbol'];
+                        var latestTimestamp = getLatestTimestamp(timeSeriesData);
+                        var row = timeSeriesData[latestTimestamp];
+                        var tableRow = {
+                            symbol: stockName,
+                            timestamp: latestTimestamp,
+                            open: row['1. open'],
+                            high: row['2. high'],
+                            low: row['3. low'],
+                            close: row['4. close'],
+                            volume: row['5. volume'],
+                            favorite: true
+                        };
+                        tableRows.push(tableRow);
+                    },
+                    error: function() {
+                        console.log("Failed to fetch stock data for symbol: " + symbol);
+                    }
+                });
             }
-            renderTableRows(tableRows);
+            renderTable(tableRows);
         }
         function getLatestTimestamp(timeSeriesData) {
             var timestamps = Object.keys(timeSeriesData);
             return timestamps[0];
         }
-        function renderTableRows(tableRows) {
+        function renderTable(tableRows) {
             var $tableBody = $("#favorites-table tbody");$tableBody.empty();
             for (var i = 0; i < tableRows.length; i++) {
                 var row = tableRows[i];
-                var favoriteIcon = '<span class="favorite" onclick="removeFromFavorites(' + i + ')">&#9733;</span>';
+                var favoriteIcon = '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9733;</span>';
                 var tableRow = "<tr>" +
                     "<td>" + row.symbol + favoriteIcon + "</td>" +
                     "<td>" + row.timestamp + "</td>" +
@@ -68,18 +86,20 @@
                     "</tr>";$tableBody.append(tableRow);
             }
         }
-        function removeFromFavorites(rowIndex) {
-            favorites.splice(rowIndex, 1);
+        function toggleFavorite(rowIndex) {
+            var $table = $("#favorites-table");
+            var $row = $table.find("tbody tr").eq(rowIndex);
+            var stockName = $row.find("td").eq(0).text();
+            if (favorites.includes(stockName)) {
+                favorites = favorites.filter(function(value) {
+                    return value !== stockName;
+                });$row.remove();
+            }
             saveFavoritesToLocalStorage();
-            renderTable();
-        }
-        function saveFavoritesToLocalStorage() {
-            localStorage.setItem("favorites", JSON.stringify(favorites));
         }
     </script>
 </head>
 <body>
-    <h1>Favorite Stocks</h1>
     <table id="favorites-table">
         <thead>
             <tr>
@@ -93,7 +113,7 @@
             </tr>
         </thead>
         <tbody>
-            <!-- The table body will be populated with favorite stocks data -->
+            <!-- The table body will be populated with favorited stock data -->
         </tbody>
     </table>
 </body>
