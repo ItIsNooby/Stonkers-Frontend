@@ -59,6 +59,7 @@
             }
             renderTable(tableRows);
             saveStockDataToLocalStorage(tableRows);
+            saveFavoritesToLocalStorage(); // Save favorites to localStorage
         }
         function getLatestTimestamp(timeSeriesData) {
             var timestamps = Object.keys(timeSeriesData);
@@ -104,7 +105,6 @@
         }
         function saveStockDataToLocalStorage(tableRows) {
             localStorage.setItem("stockData", JSON.stringify(tableRows));
-            localStorage.setItem("favorites", JSON.stringify(favorites));
         }
         function loadStockDataFromLocalStorage() {
             var storedStockData = localStorage.getItem("stockData");
