@@ -13,7 +13,7 @@
 </head>
 <body>
     <div class="center">
-        <img src="https://github.com/DerekSol/Tera/assets/111466901/0d696cc7-16a4-4830-b7b9-4a8f09b4c6a4" alt="image">
+        <img src="https://media3.giphy.com/media/JtBZm3Getg3dqxK0zP/giphy-downsized-large.gif?cid=6c09b9523f8b517b64de56085e273298014664726e4f8b9a&ep=v1_internal_gifs_gifId&rid=giphy-downsized-large.gif&ct=g" alt="gif">
     </div>
 </body>
 </html>
