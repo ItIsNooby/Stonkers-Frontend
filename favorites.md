@@ -11,6 +11,20 @@
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Favorites</h1>
+    <table id="favorites-table">
+        <thead>
+            <tr>
+                <th>Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- The table body will be populated with favorited stocks -->
+        </tbody>
+    </table>
+    <a href="stocks.html" id="stocks-link">View Stocks</a>
     <script>
         var favorites = [];$(document).ready(function() {
             loadFavoritesFromLocalStorage();
@@ -32,18 +46,5 @@
             }
         }
     </script>
-</head>
-<body>
-    <h1>Favorites</h1>
-    <table id="favorites-table">
-        <thead>
-            <tr>
-                <th>Stock</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- The table body will be populated with favorited stocks -->
-        </tbody>
-    </table>
 </body>
 </html>
