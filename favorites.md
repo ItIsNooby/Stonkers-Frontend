@@ -29,7 +29,6 @@
                 var stockData = JSON.parse(localStorage.getItem(symbol));
                 var tableRow = "<tr>" +
                     "<td>" + symbol + "</td>" +
-                    "<td>" + stockData.timestamp + "</td>" +
                     "<td>" + stockData.open + "</td>" +
                     "<td>" + stockData.high + "</td>" +
                     "<td>" + stockData.low + "</td>" +
@@ -51,7 +50,6 @@
         <thead>
             <tr>
                 <th class="sortable">Stock</th>
-                <th class="sortable">Timestamp</th>
                 <th class="sortable">Open</th>
                 <th class="sortable">High</th>
                 <th class="sortable">Low</th>
