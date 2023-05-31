@@ -1,5 +1,24 @@
 # Welcome To Stonkers
 
+<html>
+<head>
+    <title>Center Image</title>
+    <style>
+        .center {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="center">
+        <img src="https://github.com/DerekSol/Tera/assets/111466901/0d696cc7-16a4-4830-b7b9-4a8f09b4c6a4" alt="image">
+    </div>
+</body>
+</html>
+
+
 <b>Who made this website?</b>
 
 The creators of this website are Derek Sol, Luke Riggins, Ben Lee, Jeffrey Lee, Jagger Klein, Saavan Gade, and Dylan Garrett.
