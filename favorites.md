@@ -1,32 +1,16 @@
 <html>
 <head>
-    <title>Favorites</title>
+    <title>My Favorite Stocks</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        table {
-            border-collapse: collapse;
+        .sortable {
+            cursor: pointer; 
         }
-        th, td {
-            border: 1px solid black;
-            padding: 5px;
+        .favorite {
+            color: gold;
+            cursor: pointer;
         }
     </style>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
-    <h1>Favorites</h1>
-    <table id="favorites-table">
-        <thead>
-            <tr>
-                <th>Stock</th>
-                <th>Current Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- The table body will be populated with favorited stocks -->
-        </tbody>
-    </table>
-    <button onclick="clearFavorites()">Clear Favorites</button>
-    <a href="stocks.html" id="stocks-link">View Stocks</a>
     <script>
         var favorites = [];$(document).ready(function() {
             loadFavoritesFromLocalStorage();
@@ -42,28 +26,43 @@
             var $tableBody = $("#favorites-table tbody");$tableBody.empty();
             for (var i = 0; i < favorites.length; i++) {
                 var symbol = favorites[i];
-                var stockData = getStockData(symbol);
-                if (stockData) {
-                    var tableRow = "<tr>" +
-                        "<td>" + symbol + "</td>" +
-                        "<td>" + stockData.close + "</td>" +
-                        "</tr>";$tableBody.append(tableRow);
-                }
+                var stockData = JSON.parse(localStorage.getItem(symbol));
+                var tableRow = "<tr>" +
+                    "<td>" + symbol + "</td>" +
+                    "<td>" + stockData.timestamp + "</td>" +
+                    "<td>" + stockData.open + "</td>" +
+                    "<td>" + stockData.high + "</td>" +
+                    "<td>" + stockData.low + "</td>" +
+                    "<td>" + stockData.close + "</td>" +
+                    "<td>" + stockData.volume + "</td>" +
+                    "</tr>";$tableBody.append(tableRow);
             }
         }
-        function getStockData(symbol) {
-            var storedData = localStorage.getItem(symbol);
-            if (storedData) {
-                var stockData = JSON.parse(storedData);
-                return stockData;
-            }
-            return null;
-        }
-        function clearFavorites() {
+        function clearLocalStorage() {
+            localStorage.clear();
             favorites = [];
-            localStorage.removeItem("favorites");
             renderTable();
         }
     </script>
+</head>
+<body>
+    <button onclick="renderTable()">Refresh Data</button>
+    <table id="favorites-table">
+        <thead>
+            <tr>
+                <th class="sortable">Stock</th>
+                <th class="sortable">Timestamp</th>
+                <th class="sortable">Open</th>
+                <th class="sortable">High</th>
+                <th class="sortable">Low</th>
+                <th class="sortable">Close</th>
+                <th class="sortable">Volume</th> 
+            </tr>
+        </thead>
+        <tbody>
+            <!-- The table body will be populated with favorite stock data -->
+        </tbody>
+    </table>
+    <button onclick="clearLocalStorage()">Clear Favorites</button> 
 </body>
 </html>

@@ -63,7 +63,7 @@
             return timestamps[0];
         }
         function renderTable(tableRows) {
-            var $tableBody = $("#stock-table tbody");$tableBody.empty();
+            var $tableBody = $("#stock-table tbody");   $tableBody.empty();
             for (var i = 0; i < tableRows.length; i++) {
                 var row = tableRows[i];
                 var favoriteIcon = row.favorite ? '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9733;</span>' : '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9734;</span>';
@@ -75,7 +75,7 @@
                     "<td>" + row.low + "</td>" +
                     "<td>" + row.close + "</td>" +
                     "<td>" + row.volume + "</td>" +
-                    "</tr>";$tableBody.append(tableRow);
+                    "</tr>"; $tableBody.append(tableRow);
             }
         }
         function toggleFavorite(rowIndex) {
