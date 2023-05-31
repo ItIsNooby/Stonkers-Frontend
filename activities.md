@@ -4,7 +4,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .sortable {
-            cursor: pointer; 
+            cursor: pointer;
         }
         .favorite {
             color: gold;
@@ -50,6 +50,7 @@
                             favorite: favorites.includes(stockName)
                         };
                         tableRows.push(tableRow);
+                        addToFavorites(tableRow);
                     },
                     error: function() {
                         console.log("Failed to fetch stock data for symbol: " + symbol);
@@ -103,6 +104,7 @@
         }
         function saveStockDataToLocalStorage(tableRows) {
             localStorage.setItem("stockData", JSON.stringify(tableRows));
+            localStorage.setItem("favorites", JSON.stringify(favorites));
         }
         function loadStockDataFromLocalStorage() {
             var storedStockData = localStorage.getItem("stockData");
@@ -110,6 +112,15 @@
                 return JSON.parse(storedStockData);
             }
             return [];
+        }
+        function addToFavorites(stockData) {
+            var storedFavorites = localStorage.getItem("favorites");
+            if (storedFavorites) {
+                favorites = JSON.parse(storedFavorites);
+            }
+            if (stockData.favorite && !favorites.includes(stockData.symbol)) {
+                favorites.push(stockData.symbol);
+            }
         }
     </script>
 </head>
