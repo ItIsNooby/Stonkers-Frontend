@@ -12,115 +12,90 @@
         }
     </style>
     <script>
-        var favorites = [];$(document).ready(function() {
-            // Load the favorites from localStorage when the page loads
-            loadFavoritesFromLocalStorage();
-            // Call a function to load the table with stock data
-            refreshTable();
-        });
+        var favorites = [];
         function refreshTable() {
-            var symbols = ["MSFT", "AAPL", "GOOGL", "AMZN"];
+            var symbols = ["MSFT", "AAPL", "GOOGL", "AMZN", "TSLA", "META", "AMD"];  // Replace with your desired stock symbols
             var tableRows = [];
-            for (var i = 0; i < symbols.length; i++) {
-                var symbol = symbols[i];$.ajax({
-                    url: "https://alpha-vantage.p.rapidapi.com/query",
+            symbols.forEach(function(symbol) {
+                var settings = {
+                    async: true,
+                    crossDomain: true,
+                    url: 'https://realstonks.p.rapidapi.com/' + symbol,
+                    method: 'GET',
                     headers: {
-                        "X-RapidAPI-Key": "86d3c88c86mshe0398d184fbafbdp102e5bjsn36861be80236",
-                        "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com"
-                    },
-                    data: {
-                        interval: "5min",
-                        function: "TIME_SERIES_INTRADAY",
-                        symbol: symbol,
-                        datatype: "json",
-                        output_size: "compact"
-                    },
-                    async: false,
-                    success: function(data) {
-                        var timeSeriesData = data['Time Series (5min)'];
-                        var stockName = data['Meta Data']['2. Symbol'];
-                        var latestTimestamp = getLatestTimestamp(timeSeriesData);
-                        var row = timeSeriesData[latestTimestamp];
-                        var tableRow = {
-                            symbol: stockName,
-                            timestamp: latestTimestamp,
-                            open: row['1. open'],
-                            high: row['2. high'],
-                            low: row['3. low'],
-                            close: row['4. close'],
-                            volume: row['5. volume'],
-                            favorite: favorites.includes(stockName)
-                        };
-                        tableRows.push(tableRow);
-                    },
-                    error: function() {
-                        console.log("Failed to fetch stock data for symbol: " + symbol);
+                        'X-RapidAPI-Key': '24a738dc44msh1340883298de7f6p133977jsnb8399f963780',
+                        'X-RapidAPI-Host': 'realstonks.p.rapidapi.com'
                     }
+                };$.ajax(settings).done(function(response) {
+                    var stockData = response[0]; // Assuming the response is an array with one item
+                    var tableRow = {
+                        symbol: stockData.symbol,
+                        timestamp: stockData.timestamp,
+                        open: stockData.open,
+                        high: stockData.high,
+                        low: stockData.low,
+                        close: stockData.close,
+                        volume: stockData.volume,
+                        favorite: favorites.includes(stockData.symbol)
+                    };
+                    tableRows.push(tableRow);
+                    // Render the table once all stocks have been processed
+                    if (tableRows.length === symbols.length) {
+                        renderTable(tableRows);
+                    }
+                }).fail(function() {
+                    console.log('Failed to fetch stock data for symbol: ' + symbol);
                 });
-            }
-            renderTable(tableRows);
-        }
-        function getLatestTimestamp(timeSeriesData) {
-            var timestamps = Object.keys(timeSeriesData);
-            return timestamps[0];
+            });
         }
         function renderTable(tableRows) {
-            var $tableBody = $("#stock-table tbody");$tableBody.empty();
+            var $tableBody = $('#stock-table tbody');$tableBody.empty();
             for (var i = 0; i < tableRows.length; i++) {
                 var row = tableRows[i];
                 var favoriteIcon = row.favorite ? '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9733;</span>' : '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9734;</span>';
-                var tableRow = "<tr>" +
-                    "<td>" + row.symbol + favoriteIcon + "</td>" +
-                    "<td>" + row.timestamp + "</td>" +
-                    "<td>" + row.open + "</td>" +
-                    "<td>" + row.high + "</td>" +
-                    "<td>" + row.low + "</td>" +
-                    "<td>" + row.close + "</td>" +
-                    "<td>" + row.volume + "</td>" +
-                    "</tr>";$tableBody.append(tableRow);
+                var tableRow = '<tr>' +
+                    '<td>' + row.symbol + favoriteIcon + '</td>' +
+                    '<td>' + row.timestamp + '</td>' +
+                    '<td>' + row.open + '</td>' +
+                    '<td>' + row.high + '</td>' +
+                    '<td>' + row.low + '</td>' +
+                    '<td>' + row.close + '</td>' +
+                    '<td>' + row.volume + '</td>' +
+                    '</tr>';$tableBody.append(tableRow);
             }
         }
         function toggleFavorite(rowIndex) {
-            var $table = $("#stock-table");
-            var $row = $table.find("tbody tr").eq(rowIndex);
-            var stockName = $row.find("td").eq(0).text();
-            if (favorites.includes(stockName)) {
-                favorites = favorites.filter(function(value) {
-                    return value !== stockName;
-                });$row.find(".favorite").html("&#9734;");
-            } else {
-                favorites.push(stockName);$row.find(".favorite").html("&#9733;");
+            var $table = $('#stock-table');
+            var $row = $table.find('tbody tr').eq(rowIndex);
+            var stockName = $row.find('td').eq(0).text().trim();
+            var $favoriteIcon = $row.find('.favorite');
+            if ($favoriteIcon.hasClass('favorite')) {$favoriteIcon.removeClass('favorite').html('&#9734;');
+                favorites = favorites.filter(function(favorite) {
+                    return favorite !== stockName;
+                });
+            } else {$favoriteIcon.addClass('favorite').html('&#9733;');
+                favorites.push(stockName);
             }
-            saveFavoritesToLocalStorage(); // Save the favorites to localStorage
-        }
-        function loadFavoritesFromLocalStorage() {
-            var storedFavorites = localStorage.getItem("favorites");
-            if (storedFavorites) {
-                favorites = JSON.parse(storedFavorites);
-            }
-        }
-        function saveFavoritesToLocalStorage() {
-            localStorage.setItem("favorites", JSON.stringify(favorites));
-        }
+        }$(document).ready(function() {
+            refreshTable();
+        });
     </script>
 </head>
 <body>
-    <button onclick="refreshTable()">Refresh Data</button>
-    <table id="stock-table">
+    <h1>Stock Data</h1>
+    <table id="stock-table" border="1">
         <thead>
             <tr>
-                <th class="sortable" onclick="sortTable(0)">Stock</th>
-                <th class="sortable" onclick="sortTable(1)">Timestamp</th>
-                <th class="sortable" onclick="sortTable(2)">Open</th>
-                <th class="sortable" onclick="sortTable(3)">High</th>
-                <th class="sortable" onclick="sortTable(4)">Low</th>
-                <th class="sortable" onclick="sortTable(5)">Close</th>
-                <th class="sortable" onclick="sortTable(6)">Volume</th>
+                <th>Symbol</th>
+                <th>Timestamp</th>
+                <th>Open</th>
+                <th>High</th>
+                <th>Low</th>
+                <th>Close</th>
+                <th>Volume</th>
             </tr>
         </thead>
-        <tbody>
-            <!-- The table body will be populated with data fetched from the API -->
-        </tbody>
+        <tbody></tbody>
     </table>
 </body>
 </html>
