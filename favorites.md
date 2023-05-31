@@ -18,12 +18,14 @@
         <thead>
             <tr>
                 <th>Stock</th>
+                <th>Current Price</th>
             </tr>
         </thead>
         <tbody>
             <!-- The table body will be populated with favorited stocks -->
         </tbody>
     </table>
+    <button onclick="clearFavorites()">Clear Favorites</button>
     <a href="stocks.html" id="stocks-link">View Stocks</a>
     <script>
         var favorites = [];$(document).ready(function() {
@@ -39,11 +41,28 @@
         function renderTable() {
             var $tableBody = $("#favorites-table tbody");$tableBody.empty();
             for (var i = 0; i < favorites.length; i++) {
-                var stockName = favorites[i];
-                var tableRow = "<tr>" +
-                    "<td>" + stockName + "</td>" +
-                    "</tr>";$tableBody.append(tableRow);
+                var symbol = favorites[i];
+                var stockData = getStockData(symbol);
+                if (stockData) {
+                    var tableRow = "<tr>" +
+                        "<td>" + symbol + "</td>" +
+                        "<td>" + stockData.close + "</td>" +
+                        "</tr>";$tableBody.append(tableRow);
+                }
             }
+        }
+        function getStockData(symbol) {
+            var storedData = localStorage.getItem(symbol);
+            if (storedData) {
+                var stockData = JSON.parse(storedData);
+                return stockData;
+            }
+            return null;
+        }
+        function clearFavorites() {
+            favorites = [];
+            localStorage.removeItem("favorites");
+            renderTable();
         }
     </script>
 </body>
