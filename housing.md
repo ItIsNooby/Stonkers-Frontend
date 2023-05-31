@@ -27,7 +27,7 @@ body {
 }
 #results {
     font-weight: bold;
-    background: #030000;
+    background: #f7f2f2;
     padding: 20px;
     margin-top: 10px;
     border: 1px solid #ddd;
@@ -180,7 +180,7 @@ var questions = [
             b: 'Bearish trend',
             c: 'Consolidation phase'
         },
-        imageURL: 'https://a.c-dn.net/c/content/dam/publicsites/igcom/uk/images/ContentImage/Cup%20and%20handle.png',  //replace with correct URL
+        imageURL: 'https://a.c-dn.net/c/content/dam/publicsites/igcom/uk/images/ContentImage/Cup%20and%20handle.png',
         correctAnswer: 'a'
     },
     {
@@ -190,7 +190,7 @@ var questions = [
             b: 'Shooting Star',
             c: 'Doji'
         },
-        imageURL: 'https://www.adigitalblogger.com/wp-content/uploads/shooting-star.png',  //replace with correct URL
+        imageURL: 'https://www.adigitalblogger.com/wp-content/uploads/shooting-star.png',
         correctAnswer: 'b'
     },
     {
@@ -200,7 +200,7 @@ var questions = [
             b: 'Strong selling pressure',
             c: 'Low trading activity'
         },
-        imageURL: 'https://school.stockcharts.com/lib/exe/fetch.php?media=chart_analysis:candlestick_bearish_reversal_patterns:bearrev1-nke-bearengresist.png',  //replace with correct URL
+        imageURL: 'https://school.stockcharts.com/lib/exe/fetch.php?media=chart_analysis:candlestick_bearish_reversal_patterns:bearrev1-nke-bearengresist.png',
         correctAnswer: 'b'
     },
         {
@@ -210,7 +210,7 @@ var questions = [
             b: 'Double Top',
             c: 'Cup and Handle'
         },
-        imageURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBIT6kGYcWe6G9QB6j7dPEAPLxVGFHk7tidA&usqp=CAU',  //replace with correct URL
+        imageURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBIT6kGYcWe6G9QB6j7dPEAPLxVGFHk7tidA&usqp=CAU',
         correctAnswer: 'a'
     },
     {
@@ -220,7 +220,7 @@ var questions = [
             b: 'Doji',
             c: 'Bearish Engulfing'
         },
-        imageURL: 'https://a.c-dn.net/c/content/dam/publicsites/igcom/uk/images/ContentImage/doji%20patterns@2x%20(002).png',  //replace with correct URL
+        imageURL: 'https://a.c-dn.net/c/content/dam/publicsites/igcom/uk/images/ContentImage/doji%20patterns@2x%20(002).png',
         correctAnswer: 'b'
     },
     {
@@ -230,7 +230,7 @@ var questions = [
             b: 'Buying Pressure',
             c: 'Selling Pressure'
         },
-        imageURL: 'https://www.marketvolume.com/vsa/img/upthrust-bar.png',  //replace with correct URL
+        imageURL: 'https://www.marketvolume.com/vsa/img/upthrust-bar.png',
         correctAnswer: 'c'
     },
     {
@@ -240,7 +240,7 @@ var questions = [
             b: 'Rising Wedge',
             c: 'Bull Flag'
         },
-        imageURL: 'https://bpcdn.co/images/2016/05/grade7-falling-wedge-reversal-before.png',  //replace with correct URL
+        imageURL: 'https://bpcdn.co/images/2016/05/grade7-falling-wedge-reversal-before.png',
         correctAnswer: 'a'
     },
     {
@@ -250,7 +250,7 @@ var questions = [
             b: 'Bearish Reversal',
             c: 'Market Consolidation'
         },
-        imageURL: 'https://www.incrediblecharts.com/images/png_images/sna_stock_screen_consolidation.png',  //replace with correct URL
+        imageURL: 'https://www.incrediblecharts.com/images/png_images/sna_stock_screen_consolidation.png',
         correctAnswer: 'c'
     },
     {
@@ -260,7 +260,7 @@ var questions = [
             b: 'Bear Flag',
             c: 'Pennant'
         },
-        imageURL: 'https://media.warriortrading.com/2020/07/28111357/shutterstock_1407751412.jpg',  //replace with correct URL
+        imageURL: 'https://media.warriortrading.com/2020/07/28111357/shutterstock_1407751412.jpg',
         correctAnswer: 'c'
     },
     {
@@ -270,7 +270,7 @@ var questions = [
             b: 'Selling Pressure',
             c: 'Market Consolidation'
         },
-        imageURL: 'https://qph.cf2.quoracdn.net/main-qimg-a823fdcc41eed80a908f407dfb04ebf0-pjlq',  //replace with correct URL
+        imageURL: 'https://qph.cf2.quoracdn.net/main-qimg-a823fdcc41eed80a908f407dfb04ebf0-pjlq',
         correctAnswer: 'a'
     }
 ];
@@ -294,7 +294,6 @@ function showQuestion() {
     document.getElementById('a_text').textContent = q.answers.a;
     document.getElementById('b_text').textContent = q.answers.b;
     document.getElementById('c_text').textContent = q.answers.c;
-    // If the question has an image, show it. Otherwise, hide the img element.
     var questionImage = document.getElementById('questionImage');
     if (q.imageURL) {
         questionImage.src = q.imageURL;
