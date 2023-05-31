@@ -23,7 +23,7 @@
                 var symbol = symbols[i];$.ajax({
                     url: "https://alpha-vantage.p.rapidapi.com/query",
                     headers: {
-                        "X-RapidAPI-Key": "24a738dc44msh1340883298de7f6p133977jsnb8399f963780",
+                        "X-RapidAPI-Key": "86d3c88c86mshe0398d184fbafbdp102e5bjsn36861be80236",
                         "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com"
                     },
                     data: {
