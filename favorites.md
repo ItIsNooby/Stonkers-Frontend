@@ -24,11 +24,14 @@
             <!-- The table body will be populated with favorited stocks -->
         </tbody>
     </table>
-    <a href="stocks.html" id="stocks-link">View Stocks</a>
+    <button id="clear-storage-btn">Clear Local Storage</button>
     <script>
         var favorites = [];$(document).ready(function() {
             loadFavoritesFromLocalStorage();
-            renderTable();
+            renderTable();$('#clear-storage-btn').click(function() {
+                clearLocalStorage();
+                renderTable();
+            });
         });
         function loadFavoritesFromLocalStorage() {
             var storedFavorites = localStorage.getItem("favorites");
@@ -44,6 +47,10 @@
                     "<td>" + stockName + "</td>" +
                     "</tr>";$tableBody.append(tableRow);
             }
+        }
+        function clearLocalStorage() {
+            favorites = [];
+            localStorage.removeItem("favorites");
         }
     </script>
 </body>
