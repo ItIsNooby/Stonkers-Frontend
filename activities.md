@@ -12,90 +12,96 @@
         }
     </style>
     <script>
-        var favorites = [];
-        function refreshTable() {
-            var symbols = ["MSFT", "AAPL", "GOOGL", "AMZN", "TSLA", "META", "AMD"];  // Replace with your desired stock symbols
+        var favorites = [];$(document).ready(function() {
+            loadFavoritesFromLocalStorage();
+            renderTable();
+        });
+        function loadFavoritesFromLocalStorage() {
+            var storedFavorites = localStorage.getItem("favorites");
+            if (storedFavorites) {
+                favorites = JSON.parse(storedFavorites);
+            }
+        }
+        function renderTable() {
             var tableRows = [];
-            symbols.forEach(function(symbol) {
-                var settings = {
-                    async: true,
-                    crossDomain: true,
-                    url: 'https://realstonks.p.rapidapi.com/' + symbol,
-                    method: 'GET',
-                    headers: {
-                        'X-RapidAPI-Key': '24a738dc44msh1340883298de7f6p133977jsnb8399f963780',
-                        'X-RapidAPI-Host': 'realstonks.p.rapidapi.com'
-                    }
-                };$.ajax(settings).done(function(response) {
-                    var stockData = response[0]; // Assuming the response is an array with one item
+            for (var i = 0; i < favorites.length; i++) {
+                var symbol = favorites[i];
+                var stockData = localStorage.getItem(symbol);
+                if (stockData) {
+                    var data = JSON.parse(stockData);
+                    var latestTimestamp = getLatestTimestamp(data);
+                    var row = data[latestTimestamp];
                     var tableRow = {
-                        symbol: stockData.symbol,
-                        timestamp: stockData.timestamp,
-                        open: stockData.open,
-                        high: stockData.high,
-                        low: stockData.low,
-                        close: stockData.close,
-                        volume: stockData.volume,
-                        favorite: favorites.includes(stockData.symbol)
+                        symbol: symbol,
+                        timestamp: latestTimestamp,
+                        open: row['1. open'],
+                        high: row['2. high'],
+                        low: row['3. low'],
+                        close: row['4. close'],
+                        volume: row['5. volume'],
+                        favorite: true
                     };
                     tableRows.push(tableRow);
-                    // Render the table once all stocks have been processed
-                    if (tableRows.length === symbols.length) {
-                        renderTable(tableRows);
-                    }
-                }).fail(function() {
-                    console.log('Failed to fetch stock data for symbol: ' + symbol);
-                });
-            });
+                } else {
+                    console.log("No stored data found for symbol: " + symbol);
+                }
+            }
+            renderTableRows(tableRows);
         }
-        function renderTable(tableRows) {
-            var $tableBody = $('#stock-table tbody');$tableBody.empty();
+        function getLatestTimestamp(timeSeriesData) {
+            var timestamps = Object.keys(timeSeriesData);
+            return timestamps[0];
+        }
+        function renderTableRows(tableRows) {
+            var $tableBody = $("#stock-table tbody");$tableBody.empty();
             for (var i = 0; i < tableRows.length; i++) {
                 var row = tableRows[i];
-                var favoriteIcon = row.favorite ? '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9733;</span>' : '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9734;</span>';
-                var tableRow = '<tr>' +
-                    '<td>' + row.symbol + favoriteIcon + '</td>' +
-                    '<td>' + row.timestamp + '</td>' +
-                    '<td>' + row.open + '</td>' +
-                    '<td>' + row.high + '</td>' +
-                    '<td>' + row.low + '</td>' +
-                    '<td>' + row.close + '</td>' +
-                    '<td>' + row.volume + '</td>' +
-                    '</tr>';$tableBody.append(tableRow);
+                var favoriteIcon = '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9733;</span>';
+                var tableRow = "<tr>" +
+                    "<td>" + row.symbol + favoriteIcon + "</td>" +
+                    "<td>" + row.timestamp + "</td>" +
+                    "<td>" + row.open + "</td>" +
+                    "<td>" + row.high + "</td>" +
+                    "<td>" + row.low + "</td>" +
+                    "<td>" + row.close + "</td>" +
+                    "<td>" + row.volume + "</td>" +
+                    "</tr>";$tableBody.append(tableRow);
             }
         }
         function toggleFavorite(rowIndex) {
-            var $table = $('#stock-table');
-            var $row = $table.find('tbody tr').eq(rowIndex);
-            var stockName = $row.find('td').eq(0).text().trim();
-            var $favoriteIcon = $row.find('.favorite');
-            if ($favoriteIcon.hasClass('favorite')) {$favoriteIcon.removeClass('favorite').html('&#9734;');
-                favorites = favorites.filter(function(favorite) {
-                    return favorite !== stockName;
-                });
-            } else {$favoriteIcon.addClass('favorite').html('&#9733;');
-                favorites.push(stockName);
+            var $table = $("#stock-table");
+            var $row = $table.find("tbody tr").eq(rowIndex);
+            var stockName = $row.find("td").eq(0).text();
+            if (favorites.includes(stockName)) {
+                favorites = favorites.filter(function(value) {
+                    return value !== stockName;
+                });$row.find(".favorite").html("&#9734;");
+            } else {
+                favorites.push(stockName);$row.find(".favorite").html("&#9733;");
             }
-        }$(document).ready(function() {
-            refreshTable();
-        });
+            saveFavoritesToLocalStorage();
+        }
+        function saveFavoritesToLocalStorage() {
+            localStorage.setItem("favorites", JSON.stringify(favorites));
+        }
     </script>
 </head>
 <body>
-    <h1>Stock Data</h1>
-    <table id="stock-table" border="1">
+    <table id="stock-table">
         <thead>
             <tr>
-                <th>Symbol</th>
-                <th>Timestamp</th>
-                <th>Open</th>
-                <th>High</th>
-                <th>Low</th>
-                <th>Close</th>
-                <th>Volume</th>
+                <th class="sortable">Stock</th>
+                <th class="sortable">Timestamp</th>
+                <th class="sortable">Open</th>
+                <th class="sortable">High</th>
+                <th class="sortable">Low</th>
+                <th class="sortable">Close</th>
+                <th class="sortable">Volume</th>
             </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+            <!-- The table body will be populated with favorite stocks data -->
+        </tbody>
     </table>
 </body>
 </html>
