@@ -20,7 +20,7 @@
             var symbols = ["MSFT", "AAPL", "GOOGL", "AMZN"];
             var tableRows = [];
             for (var i = 0; i < symbols.length; i++) {
-                var symbol = symbols[i];               $.ajax({
+                var symbol = symbols[i];$.ajax({
                     url: "https://alpha-vantage.p.rapidapi.com/query",
                     headers: {
                         "X-RapidAPI-Key": "86d3c88c86mshe0398d184fbafbdp102e5bjsn36861be80236",
@@ -47,8 +47,7 @@
                             low: row['3. low'],
                             close: row['4. close'],
                             volume: row['5. volume'],
-                            favorite: favorites.includes(stockName),
-                            favoriteParameters: []
+                            favorite: favorites.includes(stockName)
                         };
                         tableRows.push(tableRow);
                     },
@@ -77,7 +76,6 @@
                     "<td>" + row.low + "</td>" +
                     "<td>" + row.close + "</td>" +
                     "<td>" + row.volume + "</td>" +
-                    "<td>" + row.favoriteParameters.join(", ") + "</td>" +
                     "</tr>";$tableBody.append(tableRow);
             }
         }
@@ -104,28 +102,11 @@
         function loadFavoritesFromLocalStorage() {
             var storedFavorites = localStorage.getItem("favorites");
             if (storedFavorites) {
-                var favoritesData = JSON.parse(storedFavorites);
-                favorites = favoritesData.favorites;
-                var favoriteParameters = favoritesData.favoriteParameters;
-                // Update favorite parameters for each favorite stock
-                var $table = $("#stock-table");
-                var $rows = $table.find("tbody tr");$rows.each(function(index) {
-                    var $row = $(this);
-                    var symbol = $row.find("td").eq(0).text();
-                    if (favorites.includes(symbol) && favoriteParameters[symbol]) {
-                        var rowData = getTableRowData($row);
-                        rowData.favoriteParameters = favoriteParameters[symbol];
-                        saveStockDataToLocalStorage(stockData);
-                    }
-                });
+                favorites = JSON.parse(storedFavorites);
             }
         }
         function saveFavoritesToLocalStorage() {
-            var favoritesData = {
-                favorites: favorites,
-                favoriteParameters: getFavoriteParameters()
-            };
-            localStorage.setItem("favorites", JSON.stringify(favoritesData));
+            localStorage.setItem("favorites", JSON.stringify(favorites));
         }
         function saveStockDataToLocalStorage(stockData) {
             localStorage.setItem("stockData", JSON.stringify(stockData));
@@ -146,23 +127,8 @@
                 low: $row.find("td").eq(4).text(),
                 close: $row.find("td").eq(5).text(),
                 volume: $row.find("td").eq(6).text(),
-                favorite: false,
-                favoriteParameters: []
+                favorite: false
             };
-        }
-        function getFavoriteParameters() {
-            var favoriteParameters = {};
-            var $table = $("#stock-table");
-            var $rows = $table.find("tbody tr");$rows.each(function(index) {
-                var $row = $(this);
-                var symbol = $row.find("td").eq(0).text();
-                var parameters = [];
-                if (favorites.includes(symbol)) {
-                    parameters = getTableRowData($row).favoriteParameters;
-                }
-                favoriteParameters[symbol] = parameters;
-            });
-            return favoriteParameters;
         }
     </script>
 </head>
@@ -178,7 +144,6 @@
                 <th class="sortable">Low</th>
                 <th class="sortable">Close</th>
                 <th class="sortable">Volume</th>
-                <th class="sortable">Favorite Parameters</th>
             </tr>
         </thead>
         <tbody>
