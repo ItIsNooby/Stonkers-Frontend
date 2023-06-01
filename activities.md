@@ -7,11 +7,12 @@
             cursor: pointer;
         }
         .favorite {
-            color: gold;
+            color: gray;
             cursor: pointer;
         }
         .favorited {
-            color: gray;
+            color: gold;
+            cursor: pointer;
         }
     </style>
     <script>
