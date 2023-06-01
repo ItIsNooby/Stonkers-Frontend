@@ -138,11 +138,11 @@
   <style>
       .chart-container {
           display: inline-block;
-          width: 48%;
+          width: 99%;
       }
 
       .chart-canvas {
-          max-height: 400px;
+          max-height: 450px;
       }
 
       button {
