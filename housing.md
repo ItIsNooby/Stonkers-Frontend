@@ -290,7 +290,7 @@ function shuffleArray(array) {
 }
 function selectRandomQuestions() {
    var randomizedQuestions = shuffleArray(questions);
-   return randomizedQuestions.slice(0, 10);
+   return randomizedQuestions.slice(0, 5);
 }
 var selectedQuestions = selectRandomQuestions();
 function showQuestion() {
