@@ -4,7 +4,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .sortable {
-            cursor: pointer; 
+            cursor: pointer;
         }
         .favorite {
             color: gold;
@@ -82,73 +82,73 @@
         function toggleFavorite(rowIndex) {
             var $table = $("#stock-table");
             var $row = $table.find("tbody tr").eq(rowIndex);
-            var symbol = $row.find("td").eq(0).text();
-            var stockData = loadStockDataFromLocalStorage();
-            var favoriteIndex = favorites.indexOf(symbol);
-            if (favoriteIndex > -1) {
-                favorites.splice(favoriteIndex, 1);
-                stockData = stockData.filter(function(row) {
-                    return row.symbol !== symbol;
-                });$row.find(".favorite").html("&#9734;");
-            } else {
-                favorites.push(symbol);
-                var rowData = getTableRowData($row);
-                rowData.favorite = true;
-                stockData.push(rowData);$row.find(".favorite").html("&#9733;");
+            var stockSymbol = $row.find("td").eq(0).text();
+            var $favoriteIcon = $row.find(".favorite");
+            if ($favoriteIcon.hasClass("favorite")) {$favoriteIcon.removeClass("favorite");$favoriteIcon.html("&#9734;");
+                favorites = favorites.filter(function(symbol) {
+                    return symbol !== stockSymbol;
+                });
+            } else {$favoriteIcon.addClass("favorite");$favoriteIcon.html("&#9733;");
+                favorites.push(stockSymbol);
             }
             saveFavoritesToLocalStorage();
-            saveStockDataToLocalStorage(stockData);
-        }
-        function loadFavoritesFromLocalStorage() {
-            var storedFavorites = localStorage.getItem("favorites");
-            if (storedFavorites) {
-                favorites = JSON.parse(storedFavorites);
-            }
         }
         function saveFavoritesToLocalStorage() {
             localStorage.setItem("favorites", JSON.stringify(favorites));
+        }
+        function loadFavoritesFromLocalStorage() {
+            var storedFavorites = localStorage.getItem("favorites");
+            if (storedFavorites !== null) {
+                favorites = JSON.parse(storedFavorites);
+            }
         }
         function saveStockDataToLocalStorage(stockData) {
             localStorage.setItem("stockData", JSON.stringify(stockData));
         }
         function loadStockDataFromLocalStorage() {
             var storedStockData = localStorage.getItem("stockData");
-            if (storedStockData) {
+            if (storedStockData !== null) {
                 return JSON.parse(storedStockData);
             }
             return [];
         }
-        function getTableRowData($row) {
-            return {
-                symbol: $row.find("td").eq(0).text(),
-                timestamp: $row.find("td").eq(1).text(),
-                open: $row.find("td").eq(2).text(),
-                high: $row.find("td").eq(3).text(),
-                low: $row.find("td").eq(4).text(),
-                close: $row.find("td").eq(5).text(),
-                volume: $row.find("td").eq(6).text(),
-                favorite: false
-            };
-        }
     </script>
 </head>
 <body>
-    <button onclick="refreshTable()">Refresh Data</button>
+    <h1>Stock Data</h1>
     <table id="stock-table">
         <thead>
             <tr>
-                <th class="sortable">Stock</th>
-                <th class="sortable">Timestamp</th>
-                <th class="sortable">Open</th>
-                <th class="sortable">High</th>
-                <th class="sortable">Low</th>
-                <th class="sortable">Close</th>
-                <th class="sortable">Volume</th>
+                <th class="sortable" onclick="sortTable(0)">Symbol</th>
+                <th class="sortable" onclick="sortTable(1)">Timestamp</th>
+                <th class="sortable" onclick="sortTable(2)">Open</th>
+                <th class="sortable" onclick="sortTable(3)">High</th>
+                <th class="sortable" onclick="sortTable(4)">Low</th>
+                <th class="sortable" onclick="sortTable(5)">Close</th>
+                <th class="sortable" onclick="sortTable(6)">Volume</th>
             </tr>
         </thead>
         <tbody>
-            <!-- The table body will be populated with data fetched from the API -->
+            <!-- Table rows will be dynamically added here -->
         </tbody>
     </table>
+    <script>
+        function sortTable(columnIndex) {
+            var $table = $("#stock-table");
+            var rows = $table.find("tbody tr").get();
+            rows.sort(function(a, b) {
+                var aValue = $(a).children("td").eq(columnIndex).text();
+                var bValue = $(b).children("td").eq(columnIndex).text();
+                if (columnIndex === 1) {
+                    // Sort by timestamp in descending order
+                    return new Date(bValue) - new Date(aValue);
+                } else {
+                    // Sort by other columns in ascending order
+                    return aValue.localeCompare(bValue);
+                }
+            });$.each(rows, function(index, row) {$table.children("tbody").append(row);
+            });
+        }
+    </script>
 </body>
 </html>
