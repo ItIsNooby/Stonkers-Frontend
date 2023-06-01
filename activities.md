@@ -10,6 +10,9 @@
             color: gold;
             cursor: pointer;
         }
+        .favorited {
+            color: gray;
+        }
     </style>
     <script>
         var favorites = [];$(document).ready(function() {
@@ -67,7 +70,7 @@
             var $tableBody = $("#stock-table tbody");$tableBody.empty();
             for (var i = 0; i < tableRows.length; i++) {
                 var row = tableRows[i];
-                var favoriteIcon = row.favorite ? '<span class="favorite" onclick="toggleFavorite(this)">&#9733;</span>' : '<span class="favorite" onclick="toggleFavorite(this)">&#9734;</span>';
+                var favoriteIcon = row.favorite ? '<span class="favorite favorited" onclick="toggleFavorite(this)">&#9733;</span>' : '<span class="favorite" onclick="toggleFavorite(this)">&#9734;</span>';
                 var tableRow = "<tr>" +
                     "<td>" + row.symbol + favoriteIcon + "</td>" +
                     "<td>" + row.timestamp + "</td>" +
@@ -83,11 +86,11 @@
             var $icon = $(iconElement);
             var $row = $icon.closest("tr");
             var stockSymbol = $row.find("td").eq(0).text();
-            if ($icon.hasClass("favorite")) {$icon.removeClass("favorite");$icon.html("&#9734;");
+            if ($icon.hasClass("favorited")) {$icon.removeClass("favorited");
                 favorites = favorites.filter(function(symbol) {
                     return symbol !== stockSymbol;
                 });
-            } else {$icon.addClass("favorite");$icon.html("&#9733;");
+            } else {$icon.addClass("favorited");
                 favorites.push(stockSymbol);
             }
             saveFavoritesToLocalStorage();
