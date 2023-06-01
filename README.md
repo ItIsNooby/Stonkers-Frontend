@@ -1,23 +1,6 @@
 # Welcome To Stonkers - Made with HTML, Javascript, and CSP Students
 
-<html>
-<head>
-    <title>Center Image</title>
-    <style>
-        .center {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-    </style>
-</head>
-<body>
-    <div class="center">
-        <img src="https://media3.giphy.com/media/JtBZm3Getg3dqxK0zP/giphy-downsized-large.gif?cid=6c09b9523f8b517b64de56085e273298014664726e4f8b9a&ep=v1_internal_gifs_gifId&rid=giphy-downsized-large.gif&ct=g" alt="gif">
-    </div>
-</body>
-</html>
-
+Our Trimester Three N@TM Project, showcasing our javascript knowledge. We use a combination of API databases, local storage, and various javascript functions to display and help prospective stock traders.
 
 <b>Who made this website?</b>
 
