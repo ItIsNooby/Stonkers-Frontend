@@ -7,7 +7,7 @@ Graphs for stocks can differ from stock to stock, whether it goes up, down, or s
 
 ![image](https://github.com/DerekSol/Tera/assets/111466901/6d35a93c-e57e-41c0-975a-a2f3f0ef9f6c)
 
-<b>When do I buy?</b>
+<b>When do I buy stocks?</b>
 
 The period after any correction or crash has historically been a great time for investors to buy at bargain prices. You typically want to buy low and sell high in order to gain maximum profit.
 
