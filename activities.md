@@ -67,7 +67,7 @@
             var $tableBody = $("#stock-table tbody");$tableBody.empty();
             for (var i = 0; i < tableRows.length; i++) {
                 var row = tableRows[i];
-                var favoriteIcon = row.favorite ? '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9733;</span>' : '<span class="favorite" onclick="toggleFavorite(' + i + ')">&#9734;</span>';
+                var favoriteIcon = row.favorite ? '<span class="favorite" onclick="toggleFavorite(this)">&#9733;</span>' : '<span class="favorite" onclick="toggleFavorite(this)">&#9734;</span>';
                 var tableRow = "<tr>" +
                     "<td>" + row.symbol + favoriteIcon + "</td>" +
                     "<td>" + row.timestamp + "</td>" +
@@ -79,16 +79,15 @@
                     "</tr>";$tableBody.append(tableRow);
             }
         }
-        function toggleFavorite(rowIndex) {
-            var $table = $("#stock-table");
-            var $row = $table.find("tbody tr").eq(rowIndex);
+        function toggleFavorite(iconElement) {
+            var $icon = $(iconElement);
+            var $row = $icon.closest("tr");
             var stockSymbol = $row.find("td").eq(0).text();
-            var $favoriteIcon = $row.find(".favorite");
-            if ($favoriteIcon.hasClass("favorite")) {$favoriteIcon.removeClass("favorite");$favoriteIcon.html("&#9734;");
+            if ($icon.hasClass("favorite")) {$icon.removeClass("favorite");$icon.html("&#9734;");
                 favorites = favorites.filter(function(symbol) {
                     return symbol !== stockSymbol;
                 });
-            } else {$favoriteIcon.addClass("favorite");$favoriteIcon.html("&#9733;");
+            } else {$icon.addClass("favorite");$icon.html("&#9733;");
                 favorites.push(stockSymbol);
             }
             saveFavoritesToLocalStorage();
