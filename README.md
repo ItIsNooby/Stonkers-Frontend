@@ -1,29 +1,25 @@
-# Welcome To Stonkers - Made with HTML, Javascript, and CSP Students
+## Stonkers
 
-Our Trimester Three N@TM Project, showcasing our javascript knowledge. We use a combination of API databases, local storage, and various javascript functions to display and help prospective stock traders.
+Stonkers is a website all about stocks. 
 
-<b>Who made this website?</b>
+### What we do:
 
-The creators of this website are Derek Sol, Luke Riggins, Ben Lee, Jeffrey Lee, Jagger Klein, Saavan Gade, and Dylan Garrett.
+1. provide accurate and up-to-date data on stocks via our graphs.
 
-<b>What does each page do?</b>
+![image](https://github.com/ItIsNooby/Stonkers-Frontend/assets/85460508/0a8e044d-4d6a-487f-b8a1-4e673370d576)
 
-1. Home - The page you are currently on with information about our site.
+2. We provide simple explanations of stock patterns and when you should buy/sell your stocks.
 
-2. <a href="/Stonkers-Frontend/housing">Quiz</a> - This is a quiz about stocks and terms to see how much you know and learn more about stocks!
+![image](https://github.com/ItIsNooby/Stonkers-Frontend/assets/85460508/c2cad34d-4914-435b-b3f9-806cc6ff5683)
 
-3. <a href="/Stonkers-Frontend/food">Graphs</a> - You can put in a ticker symbol and you will see the graph trends for that particular stock.
+3. We allow you to favorite stocks and view those favorited ones later on.
 
-4. <a href="/Stonkers-Frontend/activities">Jeffrey's Stock Picks</a> - displays Jeffreys stocks that he personally chose.
+![image](https://github.com/ItIsNooby/Stonkers-Frontend/assets/85460508/6ebbfbd6-5ee2-4c17-8413-db87c752ccb9)
 
-5. <a href="/Stonkers-Frontend/Family-Night">Family Night</a> - More graphs that you can find on different companies.
+![image](https://github.com/ItIsNooby/Stonkers-Frontend/assets/85460508/aa4f86d7-c1e8-4ff4-b64a-f9403731e6c2)
 
-6. <a href="/Stonkers-Frontend/gallery">Stock Info</a> - Information about stocks for beginners, how to buy, sell, etc.
+4. We allow you to test your knowledge of stocks with our very own stock quiz.
 
-7. <a href="/Stonkers-Frontend/stockprice">Derek's Stock Picks</a> - shows Derek's stock picks with the name and price.
+![image](https://github.com/ItIsNooby/Stonkers-Frontend/assets/85460508/c27be753-c782-45e7-99df-66d6fed222f0)
 
-8. <a href="/Stonkers-Frontend/S&P500">S&P 500</a> - this shows all the S&P 500 stocks.
-
-9. <a href="/Stonkers-Frontend/favorites">My Favorite Stocks</a> - displays the stocks that you personally favorited.
-
-
+This project showcases our javascript knowledge. We use a combination of API databases, local storage, and various javascript functions to display and help prospective stock traders.
