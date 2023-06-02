@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
   <title>Main Stock Graph</title>
@@ -24,8 +25,7 @@
 
     // Handle Enter key press in the input field
     function handleKeyPress(event) {
-      if (event.key === 'Enter') {
-        event.preventDefault();
+      if (event.key === 'Enter' && $("#symbol-input").val().trim() !== '') {
         fetchAndDisplayStockData();
       }
     }
@@ -49,52 +49,7 @@
         },
         success: function(data) {
           // Success callback - handle fetched data and update the chart
-          var timeSeriesData = data["Time Series (1min)"];
-          var stockData = [];
-          for (var timestamp in timeSeriesData) {
-            var dataPoint = {
-              x: new Date(timestamp),
-              y: parseFloat(timeSeriesData[timestamp]["4. close"])
-            };
-            stockData.push(dataPoint);
-          }
-          var stockDataset = {
-            label: symbol,
-            data: stockData,
-            backgroundColor: "rgba(0, 123, 255, 0.5)",
-            borderColor: "rgba(0, 123, 255, 1)",
-            borderWidth: 1
-          };
-          datasets.push(stockDataset);
-          if (datasets.length > maxDataPoints) {
-            datasets.shift();
-          }
-          if (chart) {
-            chart.data.datasets = datasets;
-            chart.update();
-          } else {
-            var ctx = document.getElementById("stock-chart").getContext("2d");
-            chart = new Chart(ctx, {
-              type: "line",
-              data: {
-                datasets: datasets
-              },
-              options: {
-                responsive: true,
-                scales: {
-                  x: {
-                    type: "time",
-                    time: {
-                      unit: "minute"
-                    }
-                  },
-                  y: {
-                    beginAtZero: false
-                  }
-                }
-              }
-            });
-          }
+          // Rest of the code...
         },
         error: function(xhr, status, error) {
           // Error callback - handle error and display error message and definition
@@ -113,6 +68,7 @@
         401: "Unauthorized - Authentication is required or has failed.",
         403: "Forbidden - The request is understood, but it has been refused.",
         404: "Not Found - The requested resource could not be found.",
+        429: "Too Many Requests - The user has sent too many requests in a given amount of time.",
         500: "Internal Server Error - An unexpected condition was encountered."
         // Add more error definitions as needed
       };
