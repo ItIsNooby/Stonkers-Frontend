@@ -28,15 +28,10 @@
     <button id="clear-storage-btn">Clear Local Storage</button>
     <script>
         // Initialize an empty array to store favorites
-        var favorites = [];
-        // Wait for the document to be ready
-        $(document).ready(function() {
-            // Load favorites from local storage
+        var favorites = []; $(document).ready(function() { // Wait for the document to be ready,  Load favorites from local storage
             loadFavoritesFromLocalStorage();
             // Render the table with the loaded favorites
-            renderTable();
-            // Attach a click event listener to the clear storage button
-            $('#clear-storage-btn').click(function() {
+            renderTable(); $('#clear-storage-btn').click(function() { // Attach a click event listener to the clear storage button
                 // Clear the local storage and re-render the table
                 clearLocalStorage();
                 renderTable();
@@ -52,12 +47,10 @@
         }
         // Function to render the favorites table
         function renderTable() {
-            var $tableBody = $("#favorites-table tbody");
-            $tableBody.empty(); // Clear the table body
+            var $tableBody = $("#favorites-table tbody"); $tableBody.empty(); // Clear the table body
             // Loop through each favorite and add a table row
             favorites.forEach(function(stockName) {
-                var tableRow = "<tr><td>" + stockName + "</td></tr>";
-                $tableBody.append(tableRow); // Append the row to the table body
+                var tableRow = "<tr><td>" + stockName + "</td></tr>"; $tableBody.append(tableRow); // Append the row to the table body
             });
         }
         // Function to clear local storage and favorites array
