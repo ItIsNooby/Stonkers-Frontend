@@ -60,7 +60,7 @@ body {
 var currentQuestion = 0;
 var score = 0;
 var wrongAnswers = [];
-var questions = [
+var questions = [         // array of questions
    {
        question: 'What does IPO stand for?',
        answers: {
@@ -279,7 +279,7 @@ var questions = [
        correctAnswer: 'a'
    }
 ];
-function shuffleArray(array) {
+function shuffleArray(array) { // shuffles the array of questions 
    for (var i = array.length - 1; i > 0; i--) {
        var j = Math.floor(Math.random() * (i + 1));
        var temp = array[i];
@@ -288,31 +288,31 @@ function shuffleArray(array) {
    }
    return array;
 }
-function selectRandomQuestions() {
+function selectRandomQuestions() {     // the function to select random questions is set equal to the shuffled array and selects 5 questions as set in the parameter
    var randomizedQuestions = shuffleArray(questions);
    return randomizedQuestions.slice(0, 5);
 }
-var selectedQuestions = selectRandomQuestions();
+var selectedQuestions = selectRandomQuestions(); // shows the selected random questions 
 function showQuestion() {
    var q = selectedQuestions[currentQuestion];
-   document.getElementById('question').textContent = q.question;
-   document.getElementById('a_text').textContent = q.answers.a;
-   document.getElementById('b_text').textContent = q.answers.b;
-   document.getElementById('c_text').textContent = q.answers.c;
-   var questionImage = document.getElementById('questionImage');
+   document.getElementById('question').textContent = q.question; // shows question
+   document.getElementById('a_text').textContent = q.answers.a;  // shows answer a
+   document.getElementById('b_text').textContent = q.answers.b;  // shows answer b
+   document.getElementById('c_text').textContent = q.answers.c;  // shows answer c
+   var questionImage = document.getElementById('questionImage');  // if has a image url it displays the image, and if not nothing is displayed
    if (q.imageURL) {
        questionImage.src = q.imageURL;
        questionImage.style.display = '';
    } else {
        questionImage.style.display = 'none';
    }
-    var inputs = document.getElementsByName('answer');
+    var inputs = document.getElementsByName('answer'); // makes it so the questions are unanswered when they pop up
     for(var i = 0; i < inputs.length; i++) {
         inputs[i].checked = false;
     }
 }
 function checkAnswer() {
-    var selectedAnswer = document.querySelector('input[name="answer"]:checked').value;
+    var selectedAnswer = document.querySelector('input[name="answer"]:checked').value;  // if the is correct its adds to the score out of 5, if not then it goes to the wrong answers variable.
     if (selectedAnswer === selectedQuestions[currentQuestion].correctAnswer) {
         score++;
     } else {
@@ -321,14 +321,14 @@ function checkAnswer() {
             correctAnswer: selectedQuestions[currentQuestion].answers[selectedQuestions[currentQuestion].correctAnswer]
         });
     }
-    currentQuestion++;
+    currentQuestion++;   // if the number question is >= to 5 then the quiz stops and shows the results and if not then is shows the next question
     if (currentQuestion >= selectedQuestions.length) {
         showResults();
     } else {
         showQuestion();
     }
 }
-function showResults() {
+function showResults() { // shows the score that is calculated out of 5, but if there are questions that are incorrect, it displays the question and the correct answer with it.
     document.getElementById('quiz').style.display = 'none';
     document.getElementById('results').style.display = 'block';
     document.getElementById('results').textContent = 'You scored ' + score + ' out of ' + selectedQuestions.length + '.';
@@ -342,7 +342,7 @@ function showResults() {
         }
     }
 }
-function restartQuiz() {
+function restartQuiz() {  // Restarts the quiz when the restart button is clicked by setting the current question number to 0, setting the score to 0, clearing the wrong answers, and selecting new random questions.
     currentQuestion = 0;
     score = 0;
     wrongAnswers = [];
