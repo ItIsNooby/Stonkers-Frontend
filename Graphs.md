@@ -60,7 +60,7 @@
                       label: 'Open',
                       data: openData,
                       borderColor: 'rgba(255, 99, 132, 1)', // Pink border
-                      fill: false
+                      fill: false,
                       hidden: true // hides by default
                   });
                   datasets.push({
@@ -79,7 +79,7 @@
                       label: 'Close',
                       data: closeData,
                       borderColor: 'rgba(153, 102, 255, 1)', // Purple border
-                      fill: false
+                      fill: false,
                       hidden: true // hides by default
                   });
                   // Destroy the existing chart (if any)
