@@ -129,10 +129,8 @@
                   });
               },
               error: function(jqXHR, textStatus, errorThrown) {
-                  var errorMessage = "Failed to fetch stock data.";
-                  console.log(errorMessage);
-                  console.log("Error: " + errorThrown);
-                  console.log("Status: " + textStatus);
+                  var errorMessage = "Failed to fetch stock data. Error: " + errorThrown;
+                  $("#error-message").text(errorMessage);
               }
           });
       }
@@ -154,6 +152,7 @@
       <input type="text" id="symbol-input">
       <button onclick="fetchAndDisplayStockData()">Fetch Data</button>
   </div>
+  <div id="error-message"></div>
   <canvas id="stock-chart"></canvas>
 </body>
 </html>
