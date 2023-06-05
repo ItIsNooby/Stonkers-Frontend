@@ -151,7 +151,7 @@
   <div>
       <label for="symbol-input">Stock Symbol:</label>
       <input type="text" id="symbol-input">
-      <button onclick="fetchAndDisplayStockData()"></button>
+      <button onclick="fetchAndDisplayStockData()">Hi :D</button>
   </div>
   <div id="error-message"></div>
   <canvas id="stock-chart"></canvas>
