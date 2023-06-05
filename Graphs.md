@@ -61,6 +61,7 @@
                       data: openData,
                       borderColor: 'rgba(255, 99, 132, 1)', // Pink border
                       fill: false
+                      hidden: true // hides by default
                   });
                   datasets.push({
                       label: 'High',
@@ -79,6 +80,7 @@
                       data: closeData,
                       borderColor: 'rgba(153, 102, 255, 1)', // Purple border
                       fill: false
+                      hidden: true // hides by default
                   });
                   // Destroy the existing chart (if any)
                   if (chart) {
