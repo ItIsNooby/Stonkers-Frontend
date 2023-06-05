@@ -24,6 +24,6 @@ Stonkers is a website all about stocks.
 
 This project showcases our javascript knowledge. We use a combination of API databases, local storage, and various javascript functions to display and help prospective stock traders.
 
-# [Chartjs](https://www.chartjs.org/)
+#### [Chartjs](https://www.chartjs.org/)
 
-# [Alpha Vantage](https://rapidapi.com/alphavantage/api/alpha-vantage)
+#### [Alpha Vantage](https://rapidapi.com/alphavantage/api/alpha-vantage)
