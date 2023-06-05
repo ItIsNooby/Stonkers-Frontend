@@ -8,8 +8,7 @@
       var datasets = []; // Array to hold the chart datasets
       var maxDataPoints = 100; // Maximum number of data points to display on the chart
       function fetchAndDisplayStockData() { 
-          var symbol = $("#symbol-input").val();
-          $.ajax({
+          var symbol = $("#symbol-input").val(); $.ajax({
               url: "https://alpha-vantage.p.rapidapi.com/query",
               headers: {
                   "X-RapidAPI-Key": "86d3c88c86mshe0398d184fbafbdp102e5bjsn36861be80236",
@@ -132,8 +131,7 @@
                   });
               },
               error: function(jqXHR, textStatus, errorThrown) {
-                  var errorMessage = "Failed to fetch stock data. Error: " + errorThrown;
-                  $("#error-message").text(errorMessage);
+                  var errorMessage = "Failed to fetch stock data. Error: " + errorThrown; $("#error-message").text(errorMessage);
               }
           });
       }
