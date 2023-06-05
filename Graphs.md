@@ -7,13 +7,12 @@
       var chart; // Variable to hold the chart object
       var datasets = []; // Array to hold the chart datasets
       var maxDataPoints = 100; // Maximum number of data points to display on the chart
-      function fetchAndDisplayStockData() {
-          var symbol = $("#symbol-input").val(); // Get the stock symbol from the input field
-          // Make a GET request to fetch new data from the API
+      function fetchAndDisplayStockData() { 
+          var symbol = $("#symbol-input").val();
           $.ajax({
               url: "https://alpha-vantage.p.rapidapi.com/query",
               headers: {
-                  "X-RapidAPI-Key": "86d3c88c86mshe0398d184fbafbdp102e5bjsn36861be80236", // Replace with your RapidAPI key
+                  "X-RapidAPI-Key": "86d3c88c86mshe0398d184fbafbdp102e5bjsn36861be80236",
                   "X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com"
               },
               data: {
@@ -60,30 +59,30 @@
                   datasets.push({
                       label: 'Open',
                       data: openData,
-                      borderColor: 'rgba(255, 99, 132, 1)',
+                      borderColor: 'rgba(255, 99, 132, 1)', // Pink border
                       fill: false
                   });
                   datasets.push({
                       label: 'High',
                       data: highData,
-                      borderColor: 'rgba(54, 162, 235, 1)',
+                      borderColor: 'rgba(54, 162, 235, 1)', // Blue border
                       fill: false
                   });
                   datasets.push({
                       label: 'Low',
                       data: lowData,
-                      borderColor: 'rgba(75, 192, 192, 1)',
+                      borderColor: 'rgba(75, 192, 192, 1)', // Turquoise border
                       fill: false
                   });
                   datasets.push({
                       label: 'Close',
                       data: closeData,
-                      borderColor: 'rgba(153, 102, 255, 1)',
+                      borderColor: 'rgba(153, 102, 255, 1)', // Purple border
                       fill: false
                   });
                   // Destroy the existing chart (if any)
                   if (chart) {
-                      chart.destroy();
+                      chart.destroy(); // Built-in chart.js function
                   }
                   // Create a new chart with the updated data
                   var ctx = document.getElementById('stock-chart').getContext('2d');
@@ -129,8 +128,11 @@
                       }
                   });
               },
-              error: function() {
-                  console.log("Failed to fetch stock data.");
+              error: function(jqXHR, textStatus, errorThrown) {
+                  var errorMessage = "Failed to fetch stock data.";
+                  console.log(errorMessage);
+                  console.log("Error: " + errorThrown);
+                  console.log("Status: " + textStatus);
               }
           });
       }
@@ -140,7 +142,6 @@
           max-width: 1200px;
           max-height: 1200px;
       }
-
       button {
           background-color: lavender;
           color: lavender;
