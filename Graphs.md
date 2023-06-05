@@ -90,8 +90,8 @@
                       type: 'line',
                       data: {
                           labels: timestamps.map(function(timestamp) {
-                              var localTime = new Date(timestamp).toLocaleTimeString();
-                              return localTime; // Extract the local time from the timestamp
+                              var localTime = new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                              return localTime; // Extract the local time from the timestamp without seconds
                           }),
                           datasets: datasets
                       },
