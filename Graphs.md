@@ -6,7 +6,7 @@
   <script>
       var chart; // Variable to hold the chart object
       var datasets = []; // Array to hold the chart datasets
-      var maxDataPoints = 50; // Maximum number of data points to display on the chart
+      var maxDataPoints = 100; // Maximum number of data points to display on the chart
       function fetchAndDisplayStockData() { 
           var symbol = $("#symbol-input").val(); $.ajax({
               url: "https://alpha-vantage.p.rapidapi.com/query",
@@ -150,7 +150,7 @@
   <div>
       <label for="symbol-input">Stock Symbol:</label>
       <input type="text" id="symbol-input">
-      <button onclick="fetchAndDisplayStockData()">Hi :D</button>
+      <button onclick="fetchAndDisplayStockData()">View Stock</button>
       <button onclick="chart.destroy()">Hide Graph</button>
   </div>
   <div id="error-message"></div>
