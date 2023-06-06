@@ -83,7 +83,7 @@
                   });
                   // Destroy the existing chart (if any)
                   if (chart) {
-                      chart.destroy(); // Built-in chart.js function
+                      chart.destroy(); // Built-in chart.js function which removes any charts on the screen
                   }
                   // Create a new chart with the updated data
                   var ctx = document.getElementById('stock-chart').getContext('2d');
@@ -152,6 +152,7 @@
       <label for="symbol-input">Stock Symbol:</label>
       <input type="text" id="symbol-input">
       <button onclick="fetchAndDisplayStockData()">Hi :D</button>
+      <button onclick="chart.destroy()">Hide Graph</button>
   </div>
   <div id="error-message"></div>
   <canvas id="stock-chart"></canvas>
