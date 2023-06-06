@@ -143,7 +143,6 @@
       }
       button {
           background-color: lavender;
-          color: lavender;
       }
   </style>
 </head>
