@@ -56,13 +56,6 @@
                   }
                   // Create the chart datasets
                   datasets.push({
-                      label: 'Open',
-                      data: openData,
-                      borderColor: 'rgba(255, 99, 132, 1)', // Pink border
-                      fill: false,
-                      hidden: true // hides by default
-                  });
-                  datasets.push({
                       label: 'High',
                       data: highData,
                       borderColor: 'rgba(54, 162, 235, 1)', // Blue border
@@ -73,6 +66,13 @@
                       data: lowData,
                       borderColor: 'rgba(75, 192, 192, 1)', // Turquoise border
                       fill: false
+                  });
+                  datasets.push({
+                      label: 'Open',
+                      data: openData,
+                      borderColor: 'rgba(255, 99, 132, 1)', // Pink border
+                      fill: false,
+                      hidden: true // hides by default
                   });
                   datasets.push({
                       label: 'Close',
